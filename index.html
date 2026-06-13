@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flaashh.ai - Smartest Price Comparison Engine</title>
+    <style>
+        :root {
+            --bg-color: #0b0f17;
+            --card-bg: #151c2c;
+            --accent-yellow: #ffcc00;
+            --text-color: #ffffff;
+            --btn-green: #00e676;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 42px;
+            margin-bottom: 5px;
+            font-weight: 800;
+        }
+
+        h1 span {
+            color: var(--accent-yellow);
+        }
+
+        p {
+            color: #8a99ad;
+            margin-bottom: 30px;
+        }
+
+        /* Input Wrapper */
+        .input-box-container {
+            background: var(--card-bg);
+            padding: 10px;
+            border-radius: 50px;
+            display: flex;
+            border: 2px solid #24324f;
+            margin-bottom: 25px;
+        }
+
+        .input-box-container input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 15px 25px;
+            color: white;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .input-box-container button {
+            background: var(--accent-yellow);
+            color: #000;
+            border: none;
+            padding: 0 35px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .input-box-container button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 204, 0, 0.4);
+        }
+
+        /* 🟢 POSTER AD PLACE (యూజర్ కి చిరాకు రాని పోస్టర్ యాడ్) */
+        .poster-ad-slot {
+            width: 100%;
+            background: #1e293b;
+            border: 1px dashed #475569;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        /* Comparison Table/Cards */
+        .results-container {
+            display: none;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .product-header {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border-left: 5px solid var(--accent-yellow);
+        }
+
+        .app-row {
+            background: var(--card-bg);
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #24324f;
+        }
+
+        .app-name {
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .price-tag {
+            color: var(--btn-green);
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .buy-btn {
+            background: var(--btn-green);
+            color: black;
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        /* 🎥 VIDEO AD POPUP OVERLAY (Buy Now నొక్కినప్పుడు వచ్చేది) */
+        .video-ad-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            display: none;
+        }
+
+        .ad-box {
+            background: #151c2c;
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid #24324f;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .timer {
+            font-size: 24px;
+            color: var(--accent-yellow);
+            font-weight: 700;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Flaashh<span>.ai</span></h1>
+    <p>Paste product link from any app & compare prices instantly across 7 top platforms.</p>
+
+    <!-- Core Search Bar -->
+    <div class="input-box-container">
+        <input type="text" id="productLink" placeholder="Paste Amazon, Flipkart, or Myntra link here...">
+        <button onclick="generateComparison()">Generate</button>
+    </div>
+
+    <!-- 🟢 POSTER AD PLACE: నీ Monetag Native/Banner యాడ్ కోడ్ ఇక్కడ పెట్టాలి -->
+    <div class="poster-ad-slot" id="posterAd">
+        [ SPONSORED BANNER AD - MONETAG NATIVE CODE PLACE ]
+    </div>
+
+    <!-- Results Section -->
+    <div class="results-container" id="resultsSection">
+        <div class="product-header">
+            <h3 style="margin:0;" id="searchedTitle">Searching Best Deals...</h3>
+        </div>
+        
+        <div id="appsList">
+            <!-- 7 Apps Rows dynamic గా ఇక్కడ లోడ్ అవుతాయి -->
+        </div>
+    </div>
+</div>
+
+<!-- 🎥 VIDEO AD POPUP OVERLAY -->
+<div class="video-ad-overlay" id="videoAdOverlay">
+    <div class="ad-box">
+        <h3 style="margin:0; color: white;">Connecting to Best Deal Store...</h3>
+        <p style="margin: 10px 0 0 0; font-size: 14px;">Please wait while we verify the discount price.</p>
+        
+        <!-- యాడ్ ప్లేస్ హోల్డర్ -->
+        <div style="background: #0b0f17; padding: 40px; margin: 20px 0; border-radius: 8px; color: #64748b;">
+            [ HIGH-REVENUE VIDEO AD LOADING... ]
+        </div>
+        
+        <div class="timer" id="countdownTimer">Redirecting in 5s...</div>
+    </div>
+</div>
+
+<script>
+    // 7 మెయిన్ యాప్స్ లిస్ట్
+    const appsData = [
+        { name: "Flipkart", discount: 0.90 }, // 10% తక్కువ చూపించడానికి
+        { name: "Amazon", discount: 0.93 },
+        { name: "Shopsy", discount: 0.88 },  // అత్యంత తక్కువ ధర (టాప్ లో వస్తుంది)
+        { name: "Meesho", discount: 0.89 },
+        { name: "Myntra", discount: 0.95 },
+        { name: "Ajio", discount: 0.94 },
+        { name: "Tata Cliq", discount: 0.96 }
+    ];
+
+    function generateComparison() {
+        const urlInput = document.getElementById('productLink').value.trim();
+        if(!urlInput) {
+            alert("Please paste a valid product link first!");
+            return;
+        }
+
+        // లింక్ నుండి ప్రొడక్ట్ నేమ్ లాగడానికి డెమో లాజిక్ (తర్వాత అఫిలియేట్ కి మారుస్తాం)
+        document.getElementById('searchedTitle').innerText = "⚡ Best Prices Found for Your Product";
+        
+        // ఒక డెమో బేస్ ప్రైస్ (₹1999) అనుకుందాం, యాప్స్ బట్టి మారుతుంది
+        const basePrice = 1999;
+        const appsListDiv = document.getElementById('appsList');
+        appsListDiv.innerHTML = "";
+
+        // ధరల ప్రకారం తక్కువ నుండి ఎక్కువకి సార్ట్ చేయడం
+        const sortedApps = appsData.map(app => ({
+            name: app.name,
+            price: Math.round(basePrice * app.discount)
+        })).sort((a, b) => a.price - b.price);
+
+        // రోస్ క్రియేట్ చేయడం
+        sortedApps.forEach(app => {
+            const row = document.createElement('div');
+            row.className = 'app-row';
+            row.innerHTML = `
+                <div class="app-name">${app.name}</div>
+                <div style="display: flex; align-items: center; gap: 20px;">
+                    <div class="price-tag">₹${app.price}</div>
+                    <button class="buy-btn" onclick="triggerVideoAd('https://earnmaro.com/dummy-affiliate')">Buy Now</button>
+                </div>
+            `;
+            appsListDiv.appendChild(row);
+        });
+
+        document.getElementById('resultsSection').style.display = "block";
+    }
+
+    // 🎥 వీడియో యాడ్ మరియు రీడైరెక్ట్ లాజిక్
+    function triggerVideoAd(targetUrl) {
+        const overlay = document.getElementById('videoAdOverlay');
+        const timerText = document.getElementById('countdownTimer');
+        overlay.style.display = "flex";
+        
+        let timeLeft = 5;
+        
+        // ⚠️ ఇక్కడ నీ Monetag Interstitial/Video యాడ్ స్క్రిప్ట్ రన్ అవుతుంది
+        console.log("Monetag Video Ad Triggered");
+
+        const interval = setInterval(() => {
+            timeLeft--;
+            timerText.innerText = `Redirecting in ${timeLeft}s...`;
+            
+            if(timeLeft <= 0) {
+                clearInterval(interval);
+                overlay.style.display = "none";
+                // వీడియో యాడ్ అయిపోయాక అఫిలియేట్ లింక్ కి వెళ్తుంది
+                window.open(targetUrl, '_blank'); 
+            }
+        }, 1000);
+    }
+</script>
+
+</body>
+</html>
