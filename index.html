@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flaashh.ai - Coolest Price Comparison Engine</title>
+    <title>Flaashh.ai - Coolest Price Comparison</title>
     <style>
         :root {
             --card-bg: rgba(255, 255, 255, 0.12);
@@ -15,123 +15,125 @@
 
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
-            overflow-x: hidden; font-family: 'Segoe UI', Roboto, sans-serif;
-            color: var(--text-color); background: #050b14;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            color: var(--text-color);
+            background: #050b14;
+            overflow-x: hidden;
         }
 
-        /* ❄️ 3D Ice Igloo Canvas Background */
-        #iceCanvas {
+        /* ❄️ 3D ICE IGLOO & SNOW BACKGROUND EFFECT */
+        .ice-background {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; pointer-events: none;
+            z-index: -1;
+            background: radial-gradient(circle at center, #102542 0%, #02060d 100%);
         }
 
+        /* మంచు ముక్కలు విరిగి కలసిపోయే 3D యానిమేషన్ బాక్స్ */
+        .igloo-animation-container {
+            position: fixed; bottom: 10%; right: 10%;
+            width: 150px; height: 150px;
+            perspective: 600px;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .igloo-shards {
+            width: 100%; height: 100%;
+            position: absolute;
+            transform-style: preserve-3d;
+            animation: iceExplodeAndMerge 6s ease-in-out infinite;
+        }
+
+        .shard {
+            position: absolute; background: rgba(230, 247, 255, 0.35);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+        }
+
+        /* Igloo ముక్కలు */
+        .shard-1 { width: 60px; height: 50px; top: 20px; left: 40px; transform: rotateY(0deg) translateZ(30px); }
+        .shard-2 { width: 50px; height: 40px; top: 70px; left: 15px; transform: rotateY(45deg) translateZ(40px); }
+        .shard-3 { width: 55px; height: 45px; top: 75px; left: 80px; transform: rotateY(-45deg) translateZ(40px); }
+
+        @keyframes iceExplodeAndMerge {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+            45% { transform: scale(1.6) rotate(15deg) translateZ(80px); opacity: 0.4; } /* 💥 ముక్కలు విరగడం */
+            55% { transform: scale(1.6) rotate(15deg) translateZ(80px); opacity: 0.4; }
+            90% { transform: scale(1) rotate(0deg); opacity: 1; } /* 🔄 మళ్లీ కలిసిపోవడం */
+        }
+
+        /* Interface Layout */
         .main-wrapper {
             display: flex; flex-direction: column; align-items: center;
             padding: 40px 20px; box-sizing: border-box; width: 100%; min-height: 100vh;
         }
-
         .container { width: 100%; max-width: 800px; text-align: center; }
         
         h1 { font-size: 48px; margin-bottom: 5px; font-weight: 900; text-shadow: 0 0 20px rgba(0,240,255,0.5); }
         h1 span { color: var(--accent-blue); }
-        p { color: #b0c4de; margin-bottom: 30px; font-weight: 500; }
+        p { color: #b0c4de; margin-bottom: 30px; }
 
-        /* Glassmorphism Input Block */
-        .input-box-container {
-            background: var(--card-bg); backdrop-filter: blur(15px);
-            padding: 10px; border-radius: 50px; display: flex;
-            border: 2px solid rgba(0, 240, 255, 0.3); box-shadow: 0 8px 32px rgba(0, 240, 255, 0.1);
-            margin-bottom: 12px; transition: 0.3s;
+        .glass-card {
+            background: var(--card-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            padding: 20px; border-radius: 16px; margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
-        .input-box-container:focus-within {
-            border-color: #ffffff; box-shadow: 0 0 25px rgba(255,255,255,0.3);
+
+        .input-box-container {
+            background: rgba(0, 0, 0, 0.4); padding: 8px; border-radius: 50px;
+            display: flex; border: 2px solid rgba(0, 240, 255, 0.3);
         }
         .input-box-container input {
             flex: 1; background: transparent; border: none;
-            padding: 15px 25px; color: white; font-size: 16px; outline: none;
+            padding: 15px 20px; color: white; font-size: 16px; outline: none;
         }
         .input-box-container button {
             background: var(--accent-blue); color: #000; border: none;
-            padding: 0 35px; border-radius: 50px; font-size: 16px;
-            font-weight: 800; cursor: pointer; transition: 0.3s;
-        }
-        .input-box-container button:hover {
-            transform: scale(1.05); box-shadow: 0 0 20px var(--accent-blue);
+            padding: 0 30px; border-radius: 50px; font-size: 16px; font-weight: 800; cursor: pointer;
         }
 
-        .error-message {
-            color: var(--error-red); font-weight: 700; margin-bottom: 20px;
-            display: none; text-shadow: 0 0 10px rgba(255,51,51,0.5);
-        }
+        .error-message { color: var(--error-red); font-weight: 700; margin-bottom: 20px; display: none; }
+        .poster-ad-slot { width: 100%; background: rgba(255,255,255,0.05); border: 1px dashed rgba(0,240,255,0.4); padding: 15px; border-radius: 12px; margin-bottom: 25px; color: #b0c4de; box-sizing: border-box; }
 
-        /* 🟢 POSTER AD PLACE */
-        .poster-ad-slot {
-            width: 100%; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px);
-            border: 1px dashed rgba(0, 240, 255, 0.4); padding: 15px;
-            border-radius: 12px; margin-bottom: 30px; color: #b0c4de; box-sizing: border-box;
-        }
-
-        /* Results Styling */
         .results-container { display: none; margin-top: 20px; text-align: left; }
-        
-        /* 📸 ప్రొడక్ట్ ఫోటో మరియు టైటిల్ కార్డ్ */
-        .product-preview-card {
-            background: var(--card-bg); backdrop-filter: blur(15px);
-            padding: 20px; border-radius: 16px; margin-bottom: 20px;
-            border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; gap: 20px;
-        }
-        .product-image {
-            width: 90px; height: 90px; object-fit: contain;
-            background: #ffffff; border-radius: 12px; padding: 5px;
-            box-shadow: 0 0 15px rgba(255,255,255,0.5);
-        }
-        .product-info-text h3 { margin: 0 0 5px 0; font-size: 20px; }
-        .product-info-text p { margin: 0; color: var(--accent-blue); font-size: 14px; font-weight: 600; }
+        .product-preview-card { display: flex; align-items: center; gap: 20px; }
+        .product-image { width: 85px; height: 85px; object-fit: contain; background: #ffffff; border-radius: 12px; padding: 5px; }
 
         .app-row {
-            background: rgba(5, 11, 20, 0.75); backdrop-filter: blur(10px);
-            padding: 15px 20px; border-radius: 10px; margin-bottom: 10px;
-            display: flex; justify-content: space-between; align-items: center;
-            border: 1px solid rgba(0, 240, 255, 0.15);
+            background: rgba(5, 11, 20, 0.85); padding: 15px 20px; border-radius: 10px; margin-bottom: 10px;
+            display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(0, 240, 255, 0.15);
         }
-
-        .app-name { font-weight: 700; font-size: 18px; }
-        .price-tag { color: var(--btn-green); font-weight: 800; font-size: 22px; text-shadow: 0 0 10px rgba(57,255,20,0.3); }
+        .price-tag { color: var(--btn-green); font-weight: 800; font-size: 22px; }
         .price-zero { color: #7f8c8d; font-weight: 700; font-size: 18px; }
         
-        .buy-btn {
-            background: var(--btn-green); color: black; text-decoration: none;
-            padding: 10px 22px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none;
-        }
-        .disabled-btn {
-            background: #2c3e50; color: #7f8c8d; padding: 10px 22px;
-            border-radius: 8px; font-weight: 700; cursor: not-allowed; border: none;
-        }
+        .buy-btn { background: var(--btn-green); color: black; padding: 10px 22px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; }
+        .disabled-btn { background: #2c3e50; color: #7f8c8d; padding: 10px 22px; border-radius: 8px; font-weight: 700; cursor: not-allowed; border: none; }
 
-        /* 🎥 VIDEO AD POPUP OVERLAY */
+        /* 🎥 VIDEO AD POPUP */
         .video-ad-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(5, 11, 20, 0.97); display: flex; flex-direction: column;
-            justify-content: center; align-items: center; z-index: 9999; display: none;
-        }
-        .ad-box {
-            background: rgba(255,255,255,0.05); backdrop-filter: blur(20px);
-            padding: 40px; border-radius: 24px; text-align: center;
-            border: 1px solid rgba(0, 240, 255, 0.3); max-width: 430px; width: 90%;
+            background: rgba(5, 11, 20, 0.98); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; display: none;
         }
     </style>
 </head>
 <body>
 
-<!-- ❄️ 3D Canvas Background -->
-<canvas id="iceCanvas"></canvas>
+<!-- ❄️ Live Background Elements -->
+<div class="ice-background"></div>
+<div class="igloo-animation-container">
+    <div class="igloo-shards">
+        <div class="shard shard-1"></div>
+        <div class="shard shard-2"></div>
+        <div class="shard shard-3"></div>
+    </div>
+</div>
 
 <div class="main-wrapper">
     <div class="container">
         <h1>Flaashh<span>.ai</span></h1>
         <p>Ice-Cool Smart Price Comparison Engine</p>
 
-        <div class="input-box-container">
+        <div class="input-box-container glass-card" style="padding:8px; margin-bottom:15px;">
             <input type="text" id="productLink" placeholder="Paste Amazon, Flipkart, Myntra link...">
             <button onclick="processLiveComparison()">Generate</button>
         </div>
@@ -144,11 +146,11 @@
 
         <!-- Results Section -->
         <div class="results-container" id="resultsSection">
-            <div class="product-preview-card">
+            <div class="glass-card product-preview-card">
                 <img src="" id="prodImg" class="product-image" alt="Product Image">
-                <div class="product-info-text">
-                    <h3 id="prodTitle">Loading Product Details...</h3>
-                    <p>❄️ 7 Stores Analyzed Successfully</p>
+                <div>
+                    <h3 id="prodTitle" style="margin:0 0 5px 0;">Loading Product Details...</h3>
+                    <p style="margin:0; color: var(--accent-blue); font-size: 14px; font-weight: 600;">❄️ 7 Stores Analyzed Successfully</p>
                 </div>
             </div>
             <div id="appsList"></div>
@@ -158,104 +160,16 @@
 
 <!-- 🎥 VIDEO AD POPUP -->
 <div class="video-ad-overlay" id="videoAdOverlay">
-    <div class="ad-box">
-        <h3 style="margin:0; color: white; font-size:24px;">Connecting to Cheapest Store...</h3>
-        <p style="margin: 10px 0 0 0; color: #b0c4de;">Verifying special pricing token.</p>
-        <div style="background: rgba(0,0,0,0.4); padding: 50px; margin: 25px 0; border-radius: 12px; color: #7f8c8d; border: 1px dashed rgba(255,255,255,0.1);">
+    <div class="glass-card" style="text-align: center; max-width: 400px; width: 90%;">
+        <h3 style="margin:0; font-size:22px;">Connecting to Store...</h3>
+        <div style="background: rgba(0,0,0,0.5); padding: 40px; margin: 20px 0; border-radius: 12px; color: #7f8c8d; border: 1px dashed rgba(255,255,255,0.1);">
             [ HIGH-REVENUE VIDEO AD PLAYING ]
         </div>
-        <div id="countdownTimer" style="color:var(--accent-blue); font-weight:800; font-size:20px;">Redirecting in 5s...</div>
+        <div id="countdownTimer" style="color:var(--accent-blue); font-weight:800; font-size:18px;">Redirecting in 5s...</div>
     </div>
 </div>
 
 <script>
-    // ❄️ ICE IGLOO 3D GRAPHICS ANIMATION ENGINE
-    const canvas = document.getElementById("iceCanvas");
-    const ctx = canvas.getContext("2d");
-
-    let width, height, shards = [];
-    let cycleTime = 0;
-    let exploding = true;
-
-    function resize() {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-    }
-    window.addEventListener("resize", resize);
-    resize();
-
-    // Igloo ఆకారంలో మంచు ముక్కలను తయారు చేయడం
-    function initShards() {
-        shards = [];
-        const rows = 9;
-        for (let i = 0; i < rows; i++) {
-            const radius = 180 * Math.sin((Math.PI / 2) * (i / rows));
-            const y = height / 2 + 100 - (i * 18);
-            const count = Math.floor(radius * 0.15) || 1;
-            
-            for (let j = 0; j < count; j++) {
-                const angle = (Math.PI / count) * j;
-                const x = width / 2 + radius * Math.cos(angle - Math.PI);
-                
-                shards.push({
-                    baseX: x, baseY: y,
-                    x: x, y: y,
-                    vx: (Math.random() - 0.5) * 4,
-                    vy: (Math.random() - 0.5) * 4 - (Math.random() * 3),
-                    size: 10 + Math.random() * 12,
-                    angle: Math.random() * Math.PI
-                });
-            }
-        }
-    }
-    initShards();
-
-    function draw3DIceIgloo() {
-        ctx.clearRect(0, 0, width, height);
-        cycleTime += 0.005;
-
-        // మంచు కురుస్తున్న ఎఫెక్ట్
-        ctx.fillStyle = "rgba(255, 255, 255, 0.15)";
-        for (let m = 0; m < 30; m++) {
-            let mx = (Math.sin(cycleTime * 5 + m) * width/2) + width/2;
-            let my = (cycleTime * 400 + m * 30) % height;
-            ctx.beginPath(); ctx.arc(mx, my, 2, 0, Math.PI * 2); ctx.fill();
-        }
-
-        // ప్రతి 7 సెకన్లకి విరగడం మరియు మళ్లీ కలవడం లూప్
-        if (Math.floor(cycleTime * 100) % 700 === 0) {
-            exploding = !exploding;
-        }
-
-        shards.forEach(s => {
-            if (!exploding) {
-                // 🔄 ముక్కలన్నీ మళ్లీ కలిసిపోయి Igloo రూపంలోకి రావడం
-                s.x += (s.baseX - s.x) * 0.05;
-                s.y += (s.baseY - s.y) * 0.05;
-            } else {
-                // 💥 ముక్కలు ముక్కలుగా గాల్లోకి విరిగిపోవడం
-                s.x += s.vx * 0.6;
-                s.y += s.vy * 0.6;
-            }
-
-            // తెల్లటి ఐస్ ముక్కలు డ్రా చేయడం
-            ctx.save();
-            ctx.translate(s.x, s.y);
-            ctx.rotate(s.angle + cycleTime);
-            ctx.fillStyle = "rgba(230, 247, 255, 0.4)";
-            ctx.strokeStyle = "rgba(255, 255, 255, 0.7)";
-            ctx.lineWidth = 1.5;
-            ctx.beginPath();
-            ctx.rect(-s.size/2, -s.size/2, s.size, s.size * 0.8);
-            ctx.fill(); ctx.stroke();
-            ctx.restore();
-        });
-
-        requestAnimationFrame(draw3DIceIgloo);
-    }
-    draw3DIceIgloo();
-
-    // 🏷️ PRICE & APP LAUNCH LOGIC
     const allowedDomains = ["amazon", "flipkart", "shopsy", "meesho", "myntra", "ajio", "tatacliq"];
 
     function processLiveComparison() {
@@ -283,18 +197,16 @@
             prodImg.src = "https://img.icons8.com/fluency/96/headphones.png";
         }
         
-        // 7 Apps డేటా (కొన్నిటిలో ప్రొడక్ట్ లేనట్టు ₹0 చేసాను)
         const mockPrices = [
-            { name: "Shopsy", price: 3449 },   // అత్యంత తక్కువ ధర (టాప్ లో వస్తుంది)
+            { name: "Shopsy", price: 3449 },
             { name: "Flipkart", price: 3499 },
             { name: "Amazon", price: 3699 },
-            { name: "Meesho", price: 0 },       // ₹0 -> Not Available కండిషన్
+            { name: "Meesho", price: 0 },       
             { name: "Myntra", price: 3999 },
-            { name: "Ajio", price: 0 },         // ₹0 -> Not Available కండిషన్
+            { name: "Ajio", price: 0 },         
             { name: "Tata Cliq", price: 3850 }
         ];
 
-        // సార్టింగ్: తక్కువ ధర పైన, ₹0 ఉన్నవి కిందకి వెళ్తాయి
         const sortedPrices = mockPrices.sort((a, b) => {
             if (a.price === 0) return 1; if (b.price === 0) return -1;
             return a.price - b.price;
@@ -308,7 +220,7 @@
             row.className = 'app-row';
             
             let priceDisplay = `<div class="price-tag">₹${app.price}</div>`;
-            let buttonDisplay = `<button class="buy-btn" onclick="openVideoAd('https://earnmaro.com/dummy')">Buy Now</button>`;
+            let buttonDisplay = `<button class="buy-btn" onclick="openVideoAd('https://earnmaro.com')">Buy Now</button>`;
             
             if (app.price === 0) {
                 priceDisplay = `<div class="price-zero">₹0 (Not Available)</div>`;
