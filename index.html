@@ -1,240 +1,478 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flaashh.ai - Premium Price Comparison Engine</title>
-    <style>
-        :root {
-            --card-bg: rgba(255, 255, 255, 0.15);
-            --accent-blue: #00f0ff;
-            --text-color: #ffffff;
-            --btn-green: #39ff14;
-            --error-red: #ff3333;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Flaashh.ai — Ice-Cool 3D Price Comparison</title>
+<style>
+  :root {
+    --accent: #00f0ff;
+    --accent-dim: rgba(0,240,255,0.16);
+    --green: #39ff14;
+    --card-bg: rgba(255,255,255,0.085);
+    --card-border: rgba(255,255,255,0.12);
+    --text: #ffffff;
+    --muted: #a8c5d8;
+    --dark-row: rgba(2,8,18,0.75);
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+  
+  *, *::before, *::after { box-sizing: border-box; }
+  
+  html, body {
+    margin: 0; padding: 0; width: 100%; min-height: 100vh;
+    background: #0a1520; font-family: -apple-system, 'Segoe UI', Roboto, sans-serif;
+    color: var(--text); overflow-x: hidden;
+    -webkit-font-smoothing: antialiased; -webkit-touch-callout: none;
+  }
 
-        body, html {
-            margin: 0; padding: 0; width: 100%; height: 100%;
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            color: var(--text-color);
-            background: #0b1d3a;
-            overflow-x: hidden;
-        }
+  /* ── ❄️ LIVE 3D IGLOO CANVAS BACKGROUND ── */
+  #igloo3DCanvas {
+    position: fixed; inset: 0; z-index: 0;
+    pointer-events: none; width: 100%; height: 100%;
+    background: linear-gradient(135deg, #050d18 0%, #0c1a2b 100%);
+  }
 
-        /* ❄️ REAL COOL ICE IGLOO & SNOW BACKGROUND */
-        .ice-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-            /* ఒక అందమైన 3D ఆర్టిస్టిక్ ఐస్ ఇగ్లూ మరియు మంచు ప్రదేశం బ్యాక్‌గ్రౌండ్ */
-            background: linear-gradient(rgba(11, 29, 58, 0.6), rgba(2, 6, 13, 0.85)), 
-                        url('https://images.unsplash.com/photo-1547989453-11e67ffb3885?q=80&w=1600&auto=format&fit=crop') no-repeat center center;
-            background-size: cover;
-        }
+  /* ── CONTENT WRAPPER ── */
+  .main-wrapper {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 24px 16px 48px; min-height: 100vh;
+  }
 
-        /* 🌨️ మంచు కురిసే ఎఫెక్ట్ (Live Falling Snow) */
-        .snow-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; pointer-events: none;
-            background-image: url('https://www.transparenttextures.com/patterns/snow.png');
-            animation: snowFall 20s linear infinite;
-        }
+  .container { width: 100%; max-width: 560px; }
 
-        @keyframes snowFall {
-            0% { background-position: 0px 0px; }
-            100% { background-position: 500px 1000px; }
-        }
+  /* ── HEADER ── */
+  .logo {
+    font-size: clamp(38px, 10vw, 54px); font-weight: 900; letter-spacing: -1.5px;
+    text-shadow: 0 0 28px rgba(0,240,255,0.6), 0 2px 12px rgba(0,0,0,0.4);
+    margin-bottom: 6px; text-align: center;
+  }
+  .logo span { color: var(--accent); }
+  
+  .tagline { 
+    color: var(--muted); font-size: 13px; font-weight: 500; 
+    text-align: center; margin-bottom: 22px; text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
 
-        /* Container Layout */
-        .main-wrapper {
-            display: flex; flex-direction: column; align-items: center;
-            padding: 40px 20px; box-sizing: border-box; width: 100%; min-height: 100vh;
-        }
-        .container { width: 100%; max-width: 800px; text-align: center; }
-        
-        h1 { font-size: 46px; margin-bottom: 5px; font-weight: 900; text-shadow: 0 0 20px rgba(0,240,255,0.5); }
-        h1 span { color: var(--accent-blue); }
-        p { color: #d0e1f9; margin-bottom: 30px; font-weight: 500; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+  /* ── INPUT ROW ── */
+  .input-wrap {
+    display: flex; align-items: center; gap: 0;
+    background: rgba(0,0,0,0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border: 2px solid rgba(0,240,255,0.32); border-radius: 50px; 
+    padding: 6px 6px 6px 18px; margin-bottom: 9px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    transition: border-color 0.25s, box-shadow 0.25s;
+  }
+  .input-wrap:focus-within { 
+    border-color: var(--accent);
+    box-shadow: 0 12px 32px rgba(0,240,255,0.2);
+  }
+  
+  .input-wrap input {
+    flex: 1; background: transparent; border: none; outline: none;
+    color: #fff; font-size: 14px; min-width: 0; padding: 11px 0;
+    caret-color: var(--accent);
+  }
+  .input-wrap input::placeholder { color: #5a7a95; }
+  
+  .input-wrap button {
+    background: linear-gradient(135deg, var(--green), #2edd5e);
+    color: #000; border: none; padding: 10px 24px; border-radius: 50px; 
+    font-size: 14px; font-weight: 800; cursor: pointer; 
+    white-space: nowrap; flex-shrink: 0;
+    transition: opacity 0.15s, transform 0.12s, box-shadow 0.15s;
+    box-shadow: 0 4px 12px rgba(57,255,20,0.3);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .input-wrap button:active { 
+    opacity: 0.88; transform: scale(0.96); 
+  }
 
-        /* Premium Glassmorphism Cards */
-        .glass-card {
-            background: var(--card-bg); 
-            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            padding: 20px; border-radius: 16px; margin-bottom: 20px;
-            border: 1px solid rgba(255,255,255,0.25); 
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-        }
+  .error-msg {
+    color: #ff6b6b; font-size: 13px; font-weight: 700;
+    margin-bottom: 9px; display: none; text-align: center;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
 
-        .input-box-container {
-            background: rgba(0, 0, 0, 0.5); padding: 6px; border-radius: 50px;
-            display: flex; border: 2px solid rgba(0, 240, 255, 0.5);
-        }
-        .input-box-container input {
-            flex: 1; background: transparent; border: none; padding: 15px 20px; color: white; font-size: 16px; outline: none;
-        }
-        .input-box-container button {
-            background: var(--accent-blue); color: #000; border: none; padding: 0 30px; border-radius: 50px; font-size: 16px; font-weight: 800; cursor: pointer; transition: 0.2s;
-        }
-        .input-box-container button:hover { transform: scale(1.03); }
+  /* ── GLASS CARD ── */
+  .glass {
+    background: var(--card-bg); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+    border: 1px solid var(--card-border); border-radius: var(--radius);
+    padding: 16px; margin-bottom: 14px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  }
 
-        .error-message { color: var(--error-red); font-weight: 700; margin-bottom: 20px; display: none; text-shadow: 0 0 10px black; }
-        
-        .poster-ad-slot { 
-            width: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(10px);
-            border: 1px dashed rgba(0,240,255,0.5); padding: 15px; border-radius: 12px; 
-            margin-bottom: 25px; color: #b0c4de; box-sizing: border-box; 
-        }
+  /* ── AD SLOT ── */
+  .ad-slot {
+    border: 1px dashed rgba(0,240,255,0.24); border-radius: var(--radius-sm);
+    padding: 14px; text-align: center; color: var(--muted);
+    font-size: 12px; margin-bottom: 16px;
+    background: rgba(0,0,0,0.15); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  }
 
-        /* Results Design */
-        .results-container { display: none; margin-top: 20px; text-align: left; }
-        .product-preview-card { display: flex; align-items: center; gap: 20px; }
-        .product-image { width: 85px; height: 85px; object-fit: contain; background: #ffffff; border-radius: 12px; padding: 5px; box-shadow: 0 0 15px rgba(255,255,255,0.3); }
+  /* ── PRODUCT PREVIEW ── */
+  .product-card { display: flex; align-items: center; gap: 14px; }
+  .prod-img {
+    width: 66px; height: 66px; object-fit: contain;
+    background: #fff; border-radius: 10px; padding: 6px;
+    flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+  .prod-info h3 { 
+    font-size: 15px; font-weight: 700; margin-bottom: 4px; 
+    line-height: 1.3; text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  }
+  .prod-info p { font-size: 12px; color: var(--accent); font-weight: 600; }
 
-        .app-row {
-            background: rgba(4, 12, 26, 0.85); padding: 15px 20px; border-radius: 12px; margin-bottom: 12px;
-            display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(0, 240, 255, 0.2);
-        }
-        .price-tag { color: var(--btn-green); font-weight: 800; font-size: 22px; text-shadow: 0 0 10px rgba(57,255,20,0.2); }
-        .price-zero { color: #95a5a6; font-weight: 700; font-size: 18px; }
-        
-        .buy-btn { background: var(--btn-green); color: black; padding: 10px 22px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; box-shadow: 0 4px 15px rgba(57,255,20,0.3); }
-        .disabled-btn { background: #2c3e50; color: #7f8c8d; padding: 10px 22px; border-radius: 8px; font-weight: 700; cursor: not-allowed; border: none; }
+  /* ── RESULTS ── */
+  #resultsSection { display: none; }
 
-        /* Video Ad Overlay */
-        .video-ad-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(3, 10, 20, 0.98); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; display: none;
-        }
-    </style>
+  /* ── PRICE ROW ── */
+  .price-row {
+    background: var(--dark-row); border: 1px solid rgba(0,240,255,0.1);
+    border-radius: var(--radius-sm); padding: 11px 14px; margin-bottom: 7px;
+    display: flex; justify-content: space-between; align-items: center; gap: 10px;
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    transition: background-color 0.2s, border-color 0.2s;
+  }
+  
+  .store-name { font-weight: 700; font-size: 15px; flex-shrink: 0; }
+  .row-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+  .price-live { color: var(--green); font-weight: 800; font-size: 17px; }
+  .price-na { color: #4a6575; font-weight: 700; font-size: 14px; }
+
+  .buy-btn {
+    background: linear-gradient(135deg, var(--green), #2edd5e);
+    color: #000; border: none; padding: 7px 16px; border-radius: 6px; 
+    font-weight: 800; font-size: 12px; cursor: pointer; 
+    transition: opacity 0.15s, transform 0.12s, box-shadow 0.15s;
+    box-shadow: 0 2px 8px rgba(57,255,20,0.25);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .buy-btn:active { opacity: 0.85; transform: scale(0.96); }
+  
+  .dis-btn {
+    background: #0f1f2e; color: #3a5070; border: 1px solid rgba(255,255,255,0.05);
+    padding: 7px 16px; border-radius: 6px; font-weight: 700; font-size: 12px;
+    cursor: not-allowed;
+  }
+
+  /* ── VIDEO AD OVERLAY ── */
+  .ad-overlay {
+    position: fixed; inset: 0; z-index: 9999;
+    background: rgba(2,7,16,0.95); backdrop-filter: blur(8px);
+    display: none; flex-direction: column; justify-content: center; align-items: center;
+    padding: 20px;
+  }
+  .ad-box {
+    background: var(--card-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--card-border); border-radius: var(--radius);
+    padding: 32px 28px; text-align: center; width: 100%; max-width: 360px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+  .ad-box h3 { font-size: 18px; margin-bottom: 16px; }
+  .ad-placeholder {
+    background: rgba(0,0,0,0.3); border: 1px dashed rgba(255,255,255,0.1);
+    border-radius: 10px; padding: 40px 24px; color: var(--muted);
+    font-size: 13px; margin-bottom: 18px;
+  }
+  #countdownTxt { color: var(--accent); font-weight: 800; font-size: 18px; }
+
+  .section-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+    color: var(--muted); text-transform: uppercase; margin-bottom: 10px;
+    padding-left: 2px;
+  }
+
+  .spinner-wrap { display: none; justify-content: center; padding: 24px 0; }
+  .spinner {
+    width: 34px; height: 34px; border: 3px solid rgba(0,240,255,0.18);
+    border-top-color: var(--accent); border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .best-badge {
+    display: inline-block; background: rgba(0,240,255,0.2);
+    border: 0.5px solid rgba(0,240,255,0.4); color: var(--accent);
+    font-size: 10px; font-weight: 700; padding: 2px 8px;
+    border-radius: 4px; margin-left: 6px; letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 480px) {
+    .main-wrapper { padding: 20px 14px 44px; }
+    .logo { font-size: clamp(32px, 8vw, 48px); }
+    .glass { padding: 14px; }
+    .ad-box { padding: 24px 20px; }
+  }
+</style>
 </head>
 <body>
 
-<!-- ❄️ Real White Snow & Igloo Theme -->
-<div class="ice-bg"></div>
-<div class="snow-overlay"></div>
+<!-- ── ❄️ LIVE 3D CANVAS ELEMENT ── -->
+<canvas id="igloo3DCanvas"></canvas>
 
+<!-- ── CONTENT LAYER ── -->
 <div class="main-wrapper">
-    <div class="container">
-        <h1>Flaashh<span>.ai</span></h1>
-        <p>Ice-Cool Smart Price Comparison Engine</p>
+  <div class="container">
 
-        <div class="input-box-container glass-card" style="padding: 6px; margin-bottom: 15px;">
-            <input type="text" id="productLink" placeholder="Paste Amazon, Flipkart, Myntra link...">
-            <button onclick="processLiveComparison()">Generate</button>
-        </div>
-        
-        <div class="error-message" id="errorDiv">⚠️ Invalid Link! Please paste a valid Amazon, Flipkart, Myntra, Meesho, Ajio, Shopsy or Tata Cliq link.</div>
+    <div class="logo">Flaashh<span>.ai</span></div>
+    <p class="tagline">❄️ Ice-Cool Smart Price Comparison Engine</p>
 
-        <div class="poster-ad-slot">
-            [ NATIVE POSTER AD PLACE - MONETAG ]
-        </div>
-
-        <!-- Results Section -->
-        <div class="results-container" id="resultsSection">
-            <div class="glass-card product-preview-card">
-                <img src="" id="prodImg" class="product-image" alt="Product Image">
-                <div>
-                    <h3 id="prodTitle" style="margin:0 0 5px 0;">Loading Product Details...</h3>
-                    <p style="margin:0; color: var(--accent-blue); font-size: 14px; font-weight: 600;">❄️ 7 Stores Analyzed Successfully</p>
-                </div>
-            </div>
-            <div id="appsList"></div>
-        </div>
+    <div class="input-wrap">
+      <input type="url" id="productLink" inputmode="url" autocomplete="off" 
+        placeholder="Paste Amazon, Flipkart, Myntra link…">
+      <button onclick="runComparison()">Compare</button>
     </div>
+    <div class="error-msg" id="errMsg">⚠️ Please paste a valid store link.</div>
+
+    <div class="ad-slot">[ NATIVE POSTER AD — MONETAG ]</div>
+
+    <div class="spinner-wrap" id="spinWrap"><div class="spinner"></div></div>
+
+    <!-- ── RESULTS SECTION ── -->
+    <div id="resultsSection">
+      <div class="glass product-card" id="prodCard">
+        <img src="" id="prodImg" class="prod-img" alt="Product">
+        <div class="prod-info">
+          <h3 id="prodTitle">Loading…</h3>
+          <p>❄️ 7 Stores Analysed</p>
+        </div>
+      </div>
+
+      <div class="section-label">💰 Price Comparison</div>
+      <div id="appsList"></div>
+
+      <div class="ad-slot" style="margin-top: 10px;">[ NATIVE FOOTER AD — MONETAG ]</div>
+    </div>
+
+  </div>
 </div>
 
-<!-- Video Ad Overlay -->
-<div class="video-ad-overlay" id="videoAdOverlay">
-    <div class="glass-card" style="text-align: center; max-width: 400px; width: 90%;">
-        <h3 style="margin:0; font-size:22px;">Connecting to Store...</h3>
-        <div style="background: rgba(0,0,0,0.6); padding: 45px; margin: 20px 0; border-radius: 12px; color: #95a5a6; border: 1px dashed rgba(255,255,255,0.15);">
-            [ HIGH-REVENUE VIDEO AD PLAYING ]
-        </div>
-        <div id="countdownTimer" style="color:var(--accent-blue); font-weight:800; font-size:18px;">Redirecting in 5s...</div>
-    </div>
+<!-- ── VIDEO AD COUNTDOWN OVERLAY ── -->
+<div class="ad-overlay" id="adOverlay" role="dialog" aria-modal="true">
+  <div class="ad-box">
+    <h3>Connecting to Cheapest Store…</h3>
+    <div class="ad-placeholder">[ HIGH-REVENUE VIDEO AD PLAYING ]</div>
+    <div id="countdownTxt">Redirecting in 5s…</div>
+  </div>
 </div>
 
 <script>
-    const allowedDomains = ["amazon", "flipkart", "shopsy", "meesho", "myntra", "ajio", "tatacliq"];
+/* ═══════════════════════════════════════════
+   ❄️ LIVE 3D ICE IGLOO ENGINE (MOBILE-SAFE)
+═══════════════════════════════════════════ */
+const canvas = document.getElementById("igloo3DCanvas");
+const ctx = canvas.getContext("2d");
+let width, height, shards = [];
+let stateTimer = 0;
+let state = "explode";
 
-    function processLiveComparison() {
-        const url = document.getElementById('productLink').value.trim().toLowerCase();
-        const errorDiv = document.getElementById('errorDiv');
-        const resultsSection = document.getElementById('resultsSection');
-
-        let isValid = allowedDomains.some(domain => url.includes(domain));
-        if (!url || !isValid) {
-            errorDiv.style.display = "block"; resultsSection.style.display = "none"; return;
-        }
-        errorDiv.style.display = "none";
-
-        const prodImg = document.getElementById('prodImg');
-        const prodTitle = document.getElementById('prodTitle');
-
-        if(url.includes("amazon")) {
-            prodTitle.innerText = "Premium Smartphone (Amazon Best Seller)";
-            prodImg.src = "https://img.icons8.com/fluency/96/smart-phone.png";
-        } else if(url.includes("myntra") || url.includes("ajio")) {
-            prodTitle.innerText = "Trendy Designer Shoes / Premium Wear";
-            prodImg.src = "https://img.icons8.com/fluency/96/sneakers.png";
-        } else {
-            prodTitle.innerText = "Advanced Wireless Audio Headset";
-            prodImg.src = "https://img.icons8.com/fluency/96/headphones.png";
-        }
+function initCanvas() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+    shards = [];
+    
+    const totalRows = window.innerWidth < 480 ? 6 : 9; // మొబైల్ కోసం ఆప్టిమైజ్డ్ రోస్
+    const baseRadius = window.innerWidth < 480 ? 70 : 110;
+    
+    for (let r = 0; r < totalRows; r++) {
+        const lat = (Math.PI / 2) * (r / totalRows);
+        const radius = baseRadius * Math.sin(lat);
+        const y = (height * 0.8) - (r * (window.innerWidth < 480 ? 10 : 13));
+        const segments = Math.floor(radius * 0.16) || 1;
         
-        const mockPrices = [
-            { name: "Shopsy", price: 3449 },
-            { name: "Flipkart", price: 3499 },
-            { name: "Amazon", price: 3699 },
-            { name: "Meesho", price: 0 },       
-            { name: "Myntra", price: 3999 },
-            { name: "Ajio", price: 0 },         
-            { name: "Tata Cliq", price: 3850 }
-        ];
-
-        const sortedPrices = mockPrices.sort((a, b) => {
-            if (a.price === 0) return 1; if (b.price === 0) return -1;
-            return a.price - b.price;
-        });
-
-        const appsListDiv = document.getElementById('appsList');
-        appsListDiv.innerHTML = "";
-
-        sortedPrices.forEach(app => {
-            const row = document.createElement('div');
-            row.className = 'app-row';
+        for (let s = 0; s < segments; s++) {
+            const lon = (Math.PI / segments) * s;
+            const x = (width / 2) + radius * Math.cos(lon - Math.PI);
             
-            let priceDisplay = `<div class="price-tag">₹${app.price}</div>`;
-            let buttonDisplay = `<button class="buy-btn" onclick="openVideoAd('https://earnmaro.com')">Buy Now</button>`;
-            
-            if (app.price === 0) {
-                priceDisplay = `<div class="price-zero">₹0 (Not Available)</div>`;
-                buttonDisplay = `<button class="disabled-btn" disabled>Unavailable</button>`;
-            }
+            shards.push({
+                bx: x, by: y,
+                x: x, y: y,
+                vx: (Math.cos(lon) * 2.5) + (Math.random() - 0.5) * 1.5,
+                vy: -(Math.sin(lat) * 3.5) - Math.random() * 1.5,
+                w: (window.innerWidth < 480 ? 9 : 13) + Math.random() * 6,
+                h: (window.innerWidth < 480 ? 6 : 9) + Math.random() * 3,
+                rot: Math.random() * Math.PI,
+                rotV: (Math.random() - 0.5) * 0.04
+            });
+        }
+    }
+}
+window.addEventListener("resize", initCanvas);
+initCanvas();
 
-            row.innerHTML = `
-                <div class="app-name"><b>${app.name}</b></div>
-                <div style="display: flex; align-items: center; gap: 20px;">
-                    ${priceDisplay} ${buttonDisplay}
-                </div>`;
-            appsListDiv.appendChild(row);
-        });
+function render3DEngine() {
+    ctx.clearRect(0, 0, width, height);
+    stateTimer += 0.012;
 
-        resultsSection.style.display = "block";
+    // తెల్లటి మంచు కురిసే లైవ్ ఎఫెక్ట్
+    ctx.fillStyle = "rgba(255, 255, 255, 0.15)";
+    for (let i = 0; i < (window.innerWidth < 480 ? 15 : 30); i++) {
+        let sx = (Math.sin(stateTimer + i) * width / 2) + width / 2;
+        let sy = (stateTimer * 160 + i * 50) % height;
+        ctx.beginPath(); ctx.arc(sx, sy, 1.5, 0, Math.PI * 2); ctx.fill();
     }
 
-    function openVideoAd(link) {
-        const overlay = document.getElementById('videoAdOverlay');
-        overlay.style.display = "flex";
-        let time = 5;
-        const interval = setInterval(() => {
-            time--;
-            document.getElementById('countdownTimer').innerText = `Redirecting in ${time}s...`;
-            if (time <= 0) {
-                clearInterval(interval); overlay.style.display = "none";
-                window.open(link, '_blank');
-            }
-        }, 1000);
+    if (stateTimer > 6) stateTimer = 0;
+    if (stateTimer < 2) state = "explode";
+    else if (stateTimer < 3.5) state = "stay";
+    else if (stateTimer < 5.5) state = "merge";
+    else state = "solid";
+
+    shards.forEach(s => {
+        if (state === "explode") {
+            s.x += s.vx * 0.4; s.y += s.vy * 0.4; s.rot += s.rotV;
+        } else if (state === "merge") {
+            s.x += (s.bx - s.x) * 0.12; s.y += (s.by - s.y) * 0.12; s.rot += (0 - s.rot) * 0.12;
+        } else if (state === "solid") {
+            s.x = s.bx; s.y = s.by; s.rot = 0;
+        }
+
+        ctx.save();
+        ctx.translate(s.x, s.y);
+        ctx.rotate(s.rot);
+        ctx.fillStyle = "rgba(200, 240, 255, 0.35)";
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.6)";
+        ctx.lineWidth = 0.8;
+        ctx.beginPath(); ctx.rect(-s.w/2, -s.h/2, s.w, s.h); ctx.fill(); ctx.stroke();
+        ctx.restore();
+    });
+
+    requestAnimationFrame(render3DEngine);
+}
+render3DEngine();
+
+/* ═══════════════════════════════════════════
+   PRICE COMPARISON ENGINE[span_5](start_span)[span_5](end_span)
+═══════════════════════════════════════════ */
+const STORES = ["amazon","flipkart","shopsy","meesho","myntra","ajio","tatacliq"];
+
+function detectCategory(url) {
+  if (/myntra|ajio/.test(url)) return 'fashion';
+  if (/amazon|flipkart|tatacliq/.test(url)) return 'electronics';
+  return 'general';
+}
+
+function mockProductData(url) {
+  const cat = detectCategory(url);
+  if (cat === 'fashion') return {
+    title: "Trendy Designer Shoes / Premium Wear",
+    img: "https://img.icons8.com/fluency/96/sneakers.png"
+  };
+  if (url.includes('amazon')) return {
+    title: "Premium Smartphone (Amazon Best Seller)",
+    img: "https://img.icons8.com/fluency/96/smart-phone.png"
+  };
+  return {
+    title: "Advanced Wireless Audio Headset",
+    img: "https://img.icons8.com/fluency/96/headphones.png"
+  };
+}
+
+function mockPrices() {
+  return [
+    { name: "Shopsy",    price: 3449, url: "https://earnmaro.com" },
+    { name: "Flipkart",  price: 3499, url: "https://earnmaro.com" },
+    { name: "Amazon",    price: 3699, url: "https://earnmaro.com" },
+    { name: "Meesho",    price: 0,    url: "" },
+    { name: "Myntra",    price: 3999, url: "https://earnmaro.com" },
+    { name: "Ajio",      price: 0,    url: "" },
+    { name: "Tata Cliq", price: 3850, url: "https://earnmaro.com" },
+  ].sort((a,b) => {
+    if (a.price === 0) return 1;
+    if (b.price === 0) return -1;
+    return a.price - b.price;
+  });
+}
+
+function runComparison() {
+  const raw = document.getElementById('productLink').value.trim().toLowerCase();
+  const err = document.getElementById('errMsg');
+  const res = document.getElementById('resultsSection');
+  const spin = document.getElementById('spinWrap');
+
+  if (!raw || !STORES.some(d => raw.includes(d))) {
+    err.style.display = 'block';
+    res.style.display = 'none';
+    return;
+  }
+  err.style.display = 'none';
+  res.style.display = 'none';
+  spin.style.display = 'flex';
+
+  setTimeout(() => {
+    spin.style.display = 'none';
+
+    const prod = mockProductData(raw);
+    document.getElementById('prodImg').src   = prod.img;
+    document.getElementById('prodTitle').textContent = prod.title;
+
+    const list = document.getElementById('appsList');
+    list.innerHTML = '';
+    mockPrices().forEach((app, i) => {
+      const row = document.createElement('div');
+      row.className = 'price-row';
+      const isFirst = i === 0;
+      const available = app.price > 0;
+
+      row.innerHTML = `
+        <span class="store-name">
+          ${app.name}${isFirst ? '<span class="best-badge">BEST</span>' : ''}
+        </span>
+        <div class="row-right">
+          ${available
+            ? `<span class="price-live">₹${app.price.toLocaleString('en-IN')}</span>
+               <button class="buy-btn" onclick="startAdRedirect('${app.url}')">Buy Now</button>`
+            : `<span class="price-na">Not Available</span>
+               <button class="dis-btn" disabled aria-disabled="true">Unavailable</button>`
+          }
+        </div>`;
+      list.appendChild(row);
+    });
+
+    res.style.display = 'block';
+    res.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 1200);
+}
+
+document.getElementById('productLink').addEventListener('keydown', e => {
+  if (e.key === 'Enter') runComparison();
+});
+
+/* ── 5-SECOND VIDEO AD COUNTDOWN ── */
+let adTimer = null;
+
+function startAdRedirect(url) {
+  if (!url) return;
+  const overlay = document.getElementById('adOverlay');
+  const txt = document.getElementById('countdownTxt');
+  overlay.style.display = 'flex';
+
+  let remaining = 5;
+  txt.textContent = `Redirecting in ${remaining}s…`;
+  clearInterval(adTimer);
+
+  adTimer = setInterval(() => {
+    remaining--;
+    if (remaining > 0) {
+      txt.textContent = `Redirecting in ${remaining}s…`;
+    } else {
+      clearInterval(adTimer);
+      overlay.style.display = 'none';
+      window.open(url, '_blank', 'noopener,noreferrer');
     }
+  }, 1000);
+}
+
+window.addEventListener('popstate', () => {
+  const overlay = document.getElementById('adOverlay');
+  if (overlay.style.display === 'flex') {
+    clearInterval(adTimer);
+    overlay.style.display = 'none';
+  }
+});
 </script>
 </body>
 </html>
