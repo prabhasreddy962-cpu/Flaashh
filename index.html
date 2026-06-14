@@ -6,626 +6,143 @@
     <title>Flaash AI - Product Comparison & Reviews</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f3f0;
-            color: #1a1a1a;
-            line-height: 1.6;
-        }
-
-        /* Header */
-        .header {
-            background: white;
-            padding: 1rem;
-            border-bottom: 1px solid #e0e0e0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 1rem;
-        }
-
-        .logo {
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-        .search-container {
-            flex: 1;
-            margin: 0 1rem;
-            position: relative;
-        }
-
-        .search-container input {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-
-        .search-container input:focus {
-            outline: none;
-            border-color: #7c3aed;
-            background-color: #f9f7f5;
-        }
-
-        /* Paste Section */
-        .paste-section {
-            background: #2a2a2a;
-            color: white;
-            padding: 1.5rem;
-            margin: 1rem;
-            border-radius: 12px;
-        }
-
-        .paste-section h3 {
-            font-size: 14px;
-            margin-bottom: 0.5rem;
-        }
-
-        .paste-section input {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            background: rgba(255,255,255,0.05);
-            color: white;
-            font-size: 13px;
-        }
-
-        .paste-section input::placeholder {
-            color: rgba(255,255,255,0.6);
-        }
-
-        .button-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 1rem;
-        }
-
-        .btn {
-            padding: 8px 12px;
-            border: none;
-            border-radius: 6px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-primary {
-            background: white;
-            color: #2a2a2a;
-            font-weight: 600;
-        }
-
-        .btn-secondary {
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .btn-dark {
-            background: #2a2a2a;
-            color: white;
-        }
-
-        /* Container */
-        .container {
-            max-width: 100%;
-            padding: 1rem;
-        }
-
-        h2 {
-            font-size: 18px;
-            font-weight: 600;
-            margin: 1.5rem 0 1rem 0;
-        }
-
-        /* Product Cards */
-        .product-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
-        }
-
-        .product-card {
-            background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 12px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .product-header {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 1rem;
-        }
-
-        .product-image {
-            font-size: 40px;
-            min-width: 50px;
-        }
-
-        .product-info {
-            flex: 1;
-        }
-
-        .product-name {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-
-        .product-features {
-            display: flex;
-            gap: 4px;
-            flex-wrap: wrap;
-            margin-bottom: 6px;
-        }
-
-        .feature {
-            font-size: 10px;
-            color: #666;
-        }
-
-        .product-rating {
-            font-size: 16px;
-            font-weight: 600;
-            color: #16a34a;
-        }
-
-        /* Stores Grid */
-        .stores-section {
-            margin-bottom: 1rem;
-        }
-
-        .stores-label {
-            font-size: 11px;
-            color: #666;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .stores-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            max-height: 220px;
-            overflow-y: auto;
-            padding-bottom: 8px;
-        }
-
-        .store-item {
-            background: #f9f7f5;
-            padding: 8px;
-            border-radius: 6px;
-            text-align: center;
-            cursor: pointer;
-            border: 1px solid #e0e0e0;
-            transition: all 0.2s;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-
-        .store-item:hover {
-            background: #f0ebe5;
-            border-color: #ddd;
-        }
-
-        .store-icon {
-            font-size: 18px;
-            margin-bottom: 2px;
-        }
-
-        .store-name {
-            font-size: 9px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .store-price {
-            font-size: 11px;
-            font-weight: 600;
-            color: #16a34a;
-        }
-
-        /* Dynamic Engine Banner */
-        .engine-status {
-            background: #e0f2fe;
-            color: #0369a1;
-            padding: 8px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 600;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-
-        /* Categories */
-        .categories-section {
-            background: white;
-            padding: 1rem;
-            margin: 1rem;
-            border-radius: 12px;
-        }
-
-        .category-tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 1rem;
-        }
-
-        .category-tab {
-            padding: 6px 12px;
-            background: #f0f0f0;
-            border: none;
-            border-radius: 4px;
-            font-size: 12px;
-            cursor: pointer;
-        }
-
-        .category-tab.active {
-            background: #2a2a2a;
-            color: white;
-        }
-
-        .category-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-        }
-
-        .category-item {
-            background: #f9f7f5;
-            padding: 10px;
-            border-radius: 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        /* Articles */
-        .articles-section {
-            background: white;
-            padding: 1rem;
-            margin: 1rem;
-            border-radius: 12px;
-        }
-
-        .articles-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .article-item {
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        /* Top Products */
-        .top-products-section {
-            background: white;
-            padding: 1rem;
-            margin: 1rem;
-            border-radius: 12px;
-        }
-
-        .filter-buttons {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 1rem;
-            overflow-x: auto;
-            padding-bottom: 8px;
-        }
-
-        .filter-btn {
-            padding: 6px 12px;
-            background: #2a2a2a;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 12px;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-
-        .top-product-item {
-            background: #f9f7f5;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-        }
-
-        /* Why Trust Section */
-        .why-trust-section {
-            background: white;
-            padding: 2rem 1rem;
-            margin: 1rem;
-            border-radius: 12px;
-        }
-
-        .trust-item {
-            background: #f9f7f5;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-        }
-
-        .trust-number {
-            font-size: 20px;
-            font-weight: 600;
-            color: #7c3aed;
-        }
-
-        /* Footer */
-        .footer {
-            background: #1a1a1a;
-            color: white;
-            padding: 2rem 1rem;
-            margin-top: 2rem;
-        }
-
-        .footer-btn {
-            padding: 10px 16px;
-            background: white;
-            color: #1a1a1a;
-            border: none;
-            border-radius: 4px;
-            margin-right: 8px;
-            margin-bottom: 8px;
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            font-size: 12px;
-        }
-
-        .footer-link { color: #aaa; margin: 4px 0; }
-        .footer-divider { border-top: 1px solid #444; padding-top: 1rem; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Verdana, sans-serif; background-color: #f5f3f0; color: #1a1a1a; line-height: 1.6; }
+        .header { background: white; padding: 1rem; border-bottom: 1px solid #e0e0e0; position: sticky; top: 0; z-index: 100; }
+        .header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+        .logo { font-size: 18px; font-weight: 600; }
+        .search-container { flex: 1; margin: 0 1rem; position: relative; }
+        .search-container input { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
+        .paste-section { background: #2a2a2a; color: white; padding: 1.5rem; margin: 1rem; border-radius: 12px; }
+        .paste-section h3 { font-size: 14px; margin-bottom: 0.5rem; }
+        .paste-section input { width: 100%; padding: 10px 12px; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; margin-bottom: 1rem; background: rgba(255,255,255,0.05); color: white; font-size: 13px; }
+        .button-group { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 1rem; }
+        .btn { padding: 8px 12px; border: none; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all 0.3s; }
+        .btn-primary { background: white; color: #2a2a2a; font-weight: 600; }
+        .btn-dark { background: #2a2a2a; color: white; }
+        .container { max-width: 100%; padding: 1rem; }
+        h2 { font-size: 18px; font-weight: 600; margin: 1.5rem 0 1rem 0; }
+        .loading { text-align: center; padding: 2rem; color: #666; }
+        .loader { border: 4px solid #f3f3f3; border-top: 4px solid #7c3aed; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto 1rem; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .product-card { background: white; border: 1px solid #e0e0e0; border-radius: 12px; padding: 1rem; margin-bottom: 1rem; }
+        .product-header { display: flex; gap: 12px; margin-bottom: 1rem; }
+        .product-image { font-size: 40px; min-width: 50px; }
+        .product-info { flex: 1; }
+        .product-name { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+        .product-features { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 6px; }
+        .feature { font-size: 10px; color: #666; }
+        .product-rating { font-size: 16px; font-weight: 600; color: #16a34a; }
+        .stores-section { margin-bottom: 1rem; }
+        .stores-label { font-size: 11px; color: #666; font-weight: 600; margin-bottom: 8px; }
+        .stores-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-height: 220px; overflow-y: auto; padding-bottom: 8px; }
+        .store-item { background: #f9f7f5; padding: 8px; border-radius: 6px; text-align: center; border: 1px solid #e0e0e0; }
+        .store-item.cheapest { border: 2px solid #16a34a; background: #f0fdf4; }
+        .store-icon { font-size: 18px; margin-bottom: 2px; }
+        .store-name { font-size: 9px; font-weight: 600; margin-bottom: 4px; }
+        .store-price { font-size: 11px; font-weight: 600; color: #16a34a; }
+        .savings-box { background: #d1fae5; color: #065f46; padding: 10px; border-radius: 8px; margin-bottom: 1rem; font-size: 12px; font-weight: 600; text-align: center; }
+        .error { background: #fee2e2; color: #991b1b; padding: 1rem; border-radius: 8px; margin: 1rem; font-size: 13px; }
+        .success { background: #d1fae5; color: #065f46; padding: 1rem; border-radius: 8px; margin: 1rem; font-size: 13px; }
+        .footer { background: #1a1a1a; color: white; padding: 2rem 1rem; margin-top: 2rem; }
+        .footer-btn { padding: 10px 16px; background: white; color: #1a1a1a; border: none; border-radius: 4px; margin-right: 8px; font-size: 13px; font-weight: 600; }
     </style>
 </head>
 <body>
-
-    <!-- Header -->
     <header class="header">
-        <div class="header-top">
-            <div class="logo">≡ Flaash AI</div>
-            <i class="fas fa-search"></i>
-        </div>
-        <div class="search-container">
-            <input type="text" placeholder="Search products..." id="searchInput">
-        </div>
+        <div class="header-top"><div class="logo">≡ Flaash AI</div><i class="fas fa-search"></i></div>
+        <div class="search-container"><input type="text" placeholder="Search products..."></div>
     </header>
 
-    <!-- Paste Section -->
     <div class="paste-section">
-        <h3>+ Add Extension / Compare Live Link</h3>
-        <input type="text" placeholder="Paste product link from Amazon or Flipkart..." id="pasteInput">
+        <h3>+ Add Extension</h3>
+        <input type="text" placeholder="Paste Amazon/Flipkart/Myntra link..." id="pasteInput">
         <div class="button-group">
-            <button class="btn btn-primary" onclick="searchLivePrice()">🔍 Compare</button>
-            <button class="btn btn-secondary" onclick="handlePasteAction('Link')">📎 Paste Link</button>
-            <button class="btn btn-secondary" onclick="handlePasteAction('Reel')">🎬 Paste Reel</button>
+            <button class="btn btn-primary" onclick="searchProduct()">🔍 Search</button>
+            <button class="btn btn-primary" onclick="pasteLink()">📎 Paste Link</button>
+            <button class="btn btn-primary" onclick="showSample()">📱 Sample Link</button>
         </div>
-        <p style="font-size: 13px; margin: 0;">✨ Live comparison engine activated successfully</p>
+        <p style="font-size: 13px; margin: 0;">✨ Get real-time price comparison from 9 stores</p>
     </div>
 
-    <!-- Container -->
     <div class="container">
-        <!-- Live Results (Hidden until user compares a link) -->
-        <div id="liveResultSection" style="display: none;">
-            <h2 style="color: #7c3aed;">🔮 Live Comparison Results</h2>
-            <div id="liveProductCard"></div>
-        </div>
-
-        <!-- Featured Products -->
-        <h2>Featured Products</h2>
-        <div class="product-grid" id="productGrid"></div>
-
-        <!-- Categories -->
-        <div class="categories-section">
-            <h2 style="margin-top: 0;">Top Categories</h2>
-            <div class="category-grid" id="categoryGrid"></div>
-        </div>
-
-        <!-- Articles -->
-        <div class="articles-section">
-            <h2>Editors' Column</h2>
-            <div id="articlesContainer"></div>
-        </div>
-
-        <!-- Why Trust Section -->
-        <div class="why-trust-section">
-            <h2>Why Trust Flaash</h2>
-            <div class="trust-item">
-                <div class="trust-number">1</div>
-                <div><b>Every score has a receipt.</b> Built on safety and evidence.</div>
-            </div>
-            <div class="trust-item">
-                <div class="trust-number">2</div>
-                <div><b>5M+ reviews verified.</b> Scrutiny from Amazon, Flipkart, Myntra.</div>
-            </div>
-        </div>
+        <div id="messageBox"></div>
+        <div id="productContainer"></div>
     </div>
 
-    <!-- Footer -->
     <footer class="footer">
-        <div class="footer-grid">
-            <div>
-                <b>Shop Categories</b>
-                <div class="footer-link">Beauty & Skincare</div>
-                <div class="footer-link">Electronics</div>
-            </div>
-            <div>
-                <b>Legal</b>
-                <div class="footer-link">Privacy Policy</div>
-                <div class="footer-link">Terms</div>
-            </div>
-        </div>
-        <div class="footer-divider" style="margin-top: 15px;">
-            <div class="footer-credit">© 2026 Flaash. All rights reserved</div>
-        </div>
+        <div class="footer-buttons"><button class="footer-btn">▶ Android App</button><button class="footer-btn">🍎 iOS App</button></div>
+        <p style="text-align: center; margin-top: 1rem;">© 2026 Flaash AI - Real Product Comparison</p>
     </footer>
 
     <script>
-        // Mock Icons mapping for 9 stores
-        const storeIcons = {
-            'Shopsy': '🛒', 'Flipkart': '🛍️', 'Amazon': '📦', 
-            'Meesho': '📱', 'Myntra': '👗', 'Ajio': '🎯', 
-            'Tata Cliq': '⚡', 'Nykaa': '💄', 'Snapdeal': '🏪'
-        };
+        // దాన్ని వర్సెల్ సర్వర్‌కి కనెక్ట్ చేస్తున్నాం మామా
+        const API_URL = window.location.origin + '/api';
 
-        // Static Featured Products Data
-        const products = [
-            { id: 1, name: 'Nikon D780 DSLR Body Only', image: '📷', rating: 91, price: '₹1,39,999' },
-            { id: 2, name: 'Apple iPhone 15 Pro Max', image: '📱', rating: 94, price: '₹1,44,500' }
-        ];
-
-        // Static Categories & Articles Data
-        const categories = [
-            { name: 'Face Serums', count: 3589, icon: '✨' },
-            { name: 'Sunscreens', count: 4942, icon: '☀️' },
-            { name: 'Face Moisturizers', count: 7230, icon: '💧' }
-        ];
-
-        const articles = [
-            { tag: 'RETINOL DEEP-DIVE', title: "The beginner's retinol guide India's derms agree on" }
-        ];
-
-        // Render Static Data on Load
-        function init() {
-            document.getElementById('productGrid').innerHTML = products.map(p => `
-                <div class="product-card">
-                    <div class="product-header">
-                        <div class="product-image">${p.image}</div>
-                        <div class="product-info">
-                            <div class="product-name">${p.name}</div>
-                            <span class="feature">✓ Verified Feature Sets</span>
-                        </div>
-                        <div class="product-rating">${p.rating}</div>
-                    </div>
-                    <div class="store-price" style="font-size: 14px; margin-bottom: 5px;">Avg Price: ${p.price}</div>
-                    <button class="compare-btn" onclick="alert('Pasted real link above for dynamic 9-store check!')">Compare Live Link Above →</button>
-                </div>
-            `).join('');
-
-            document.getElementById('categoryGrid').innerHTML = categories.map(c => `
-                <div class="category-item">
-                    <div class="category-emoji">${c.icon}</div>
-                    <div>${c.name}</div>
-                    <div style="font-size: 10px; color: #666;">${c.count} Items</div>
-                </div>
-            `).join('');
-
-            document.getElementById('articlesContainer').innerHTML = articles.map(a => `
-                <div class="article-item">
-                    <div style="font-size: 10px; color: #d97706; font-weight: bold;">${a.tag}</div>
-                    <div class="article-title">${a.title}</div>
-                </div>
-            `).join('');
+        function showMessage(message, type = 'info') {
+            const messageBox = document.getElementById('messageBox');
+            const className = type === 'error' ? 'error' : 'success';
+            messageBox.innerHTML = `<div class="${className}">${message}</div>`;
         }
 
-        // 🔥 CONNECTING TO THE API FOR REAL PRICE FETCHING
-        async function searchLivePrice() {
-            const urlInput = document.getElementById('pasteInput').value.trim();
-            if (!urlInput) {
-                alert('Please paste a product link first, Maama!');
-                return;
-            }
+        function showLoading() {
+            document.getElementById('productContainer').innerHTML = `
+                <div class="loading"><div class="loader"></div><p>Fetching product details from 9 stores...</p></div>`;
+        }
 
-            const resultSection = document.getElementById('liveResultSection');
-            const cardContainer = document.getElementById('liveProductCard');
-
-            // Loading state UI Change
-            resultSection.style.display = 'block';
-            cardContainer.innerHTML = `
-                <div class="product-card" style="text-align: center; padding: 2rem;">
-                    <i class="fas fa-spinner fa-spin" style="font-size: 30px; color: #7c3aed; margin-bottom: 10px;"></i>
-                    <p>Fetching real prices from 9 stores... Please wait Maama!</p>
-                </div>`;
-            
-            // Auto scroll down to view results nicely
-            resultSection.scrollIntoView({ behavior: 'smooth' });
+        async function searchProduct() {
+            const productUrl = document.getElementById('pasteInput').value.trim();
+            if (!productUrl) { showMessage('❌ Please paste a product link first!', 'error'); return; }
+            showLoading();
 
             try {
-                // Connecting directly to our Vercel Serverless API
-                const response = await fetch(`/api/compare?url=${encodeURIComponent(urlInput)}`);
-                if (!response.ok) throw new Error('Server issues');
-
+                const response = await fetch(`${API_URL}/search-product`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ productUrl: productUrl })
+                });
                 const data = await response.json();
-
-                // Generating the 9 Stores HTML dynamically from real backend response
-                const storesHTML = data.prices.map(store => `
-                    <a href="${store.url}" target="_blank" class="store-item">
-                        <div class="store-icon">${storeIcons[store.name] || '🛒'}</div>
-                        <div class="store-name">${store.name}</div>
-                        <div class="store-price">₹${store.price.toLocaleString('en-IN')}</div>
-                    </a>
-                `).join('');
-
-                cardContainer.innerHTML = `
-                    <div class="product-card" style="border: 2px solid #7c3aed;">
-                        <div class="engine-status">⚡ LIVE DATA ACCELERATED BY FLAASH ENGINE</div>
-                        <div class="product-header">
-                            <div class="product-image">📦</div>
-                            <div class="product-info">
-                                <div class="product-name" style="color:#7c3aed; font-size:15px;">${data.title}</div>
-                                <div class="feature" style="color:#16a34a; font-weight:bold;">✓ Best Price Found At Lowest Store!</div>
-                            </div>
-                        </div>
-                        <div class="stores-section">
-                            <div class="stores-label">Real-time dynamic comparisons across available networks:</div>
-                            <div class="stores-grid">${storesHTML}</div>
-                        </div>
-                    </div>`;
-
+                if (!response.ok) { showMessage(`❌ ${data.error || 'Product not found'}`, 'error'); return; }
+                displayProduct(data.product);
+                showMessage(`✅ Found! Best price on ${data.product.cheapest} - Save ₹${data.product.savings}!`, 'success');
             } catch (error) {
-                // Bulletproof Fallback UI Mode if scraping gets completely blocked by Amazon
-                cardContainer.innerHTML = `
-                    <div class="product-card" style="border: 2px solid #ef4444;">
-                        <div class="engine-status" style="background:#fee2e2; color:#b91c1c;">⚠️ PROTECTION MODE ENABLED (ANTI-BLOCK BYPASSED)</div>
-                        <p style="font-size:12px; margin-bottom:10px; color:#555;">Target store protected their feed, but our smart network estimated real valuations for you Maama:</p>
-                        <div class="stores-grid">
-                            <div class="store-item"><div class="store-name">Flipkart</div><div class="store-price">₹2,499</div></div>
-                            <div class="store-item"><div class="store-name">Amazon</div><div class="store-price">₹2,599</div></div>
-                            <div class="store-item"><div class="store-name">Shopsy</div><div class="store-price">₹2,350</div></div>
-                        </div>
-                    </div>`;
+                showMessage(`❌ Server Error. Vercel Backend loading, please retry in 5 seconds!`, 'error');
             }
         }
 
-        function handlePasteAction(type) {
-            navigator.clipboard.readText().then(text => {
-                document.getElementById('pasteInput').value = text;
-                alert(type + ' Pasted successfully! Now tap on "Compare" button.');
-            }).catch(() => {
-                alert('Maama, please give clipboard permissions or type/paste manually inside the input box.');
-            });
+        function displayProduct(product) {
+            const sortedStores = [...product.stores].sort((a, b) => a.actualPrice - b.actualPrice);
+            let storesHTML = sortedStores.map(store => `
+                <div class="store-item ${store.name === product.cheapest ? 'cheapest' : ''}">
+                    <div class="store-icon">${store.icon}</div>
+                    <div class="store-name">${store.name}</div>
+                    <div class="store-price">${store.price}</div>
+                </div>`).join('');
+
+            document.getElementById('productContainer').innerHTML = `
+                <div class="product-card">
+                    <div class="product-header">
+                        <div class="product-image">${product.image}</div>
+                        <div class="product-info">
+                            <div class="product-name">${product.name}</div>
+                            <div class="product-features">${product.features.map(f => `<span class="feature">✓ ${f}</span>`).join('')}</div>
+                        </div>
+                        <div class="product-rating">${product.rating}</div>
+                    </div>
+                    <div class="savings-box">💰 Save ₹${product.savings} by buying from ${product.cheapest}!</div>
+                    <div class="stores-section">
+                        <div class="stores-label">Price on 9 Stores (Sorted by Price):</div>
+                        <div class="stores-grid">${storesHTML}</div>
+                    </div>
+                </div>`;
         }
 
-        window.onload = init;
+        function showSample() {
+            const samples = ['amazon.in/Apple-iPhone-15-Pro-Max', 'flipkart.com/nikon-d780', 'flipkart.com/samsung-s24'];
+            document.getElementById('pasteInput').value = samples[Math.floor(Math.random() * samples.length)];
+        }
+
+        function pasteLink() { document.getElementById('pasteInput').focus(); alert('Paste product link now!'); }
     </script>
 </body>
 </html>
