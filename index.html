@@ -27,14 +27,12 @@
     -webkit-font-smoothing: antialiased; -webkit-touch-callout: none;
   }
 
-  /* ── ❄️ LIVE 3D IGLOO CANVAS BACKGROUND ── */
   #igloo3DCanvas {
     position: fixed; inset: 0; z-index: 0;
     pointer-events: none; width: 100%; height: 100%;
     background: linear-gradient(135deg, #050d18 0%, #0c1a2b 100%);
   }
 
-  /* ── CONTENT WRAPPER ── */
   .main-wrapper {
     position: relative; z-index: 2;
     display: flex; flex-direction: column; align-items: center;
@@ -43,7 +41,6 @@
 
   .container { width: 100%; max-width: 560px; }
 
-  /* ── HEADER ── */
   .logo {
     font-size: clamp(38px, 10vw, 54px); font-weight: 900; letter-spacing: -1.5px;
     text-shadow: 0 0 28px rgba(0,240,255,0.6), 0 2px 12px rgba(0,0,0,0.4);
@@ -56,7 +53,6 @@
     text-align: center; margin-bottom: 22px; text-shadow: 0 1px 3px rgba(0,0,0,0.3);
   }
 
-  /* ── INPUT ROW ── */
   .input-wrap {
     display: flex; align-items: center; gap: 0;
     background: rgba(0,0,0,0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
@@ -96,7 +92,6 @@
     text-shadow: 0 1px 3px rgba(0,0,0,0.3);
   }
 
-  /* ── GLASS CARD ── */
   .glass {
     background: var(--card-bg); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
     border: 1px solid var(--card-border); border-radius: var(--radius);
@@ -104,7 +99,6 @@
     box-shadow: 0 8px 32px rgba(0,0,0,0.2);
   }
 
-  /* ── AD SLOT ── */
   .ad-slot {
     border: 1px dashed rgba(0,240,255,0.24); border-radius: var(--radius-sm);
     padding: 14px; text-align: center; color: var(--muted);
@@ -112,7 +106,6 @@
     background: rgba(0,0,0,0.15); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
   }
 
-  /* ── PRODUCT PREVIEW ── */
   .product-card { display: flex; align-items: center; gap: 14px; }
   .prod-img {
     width: 66px; height: 66px; object-fit: contain;
@@ -125,16 +118,13 @@
   }
   .prod-info p { font-size: 12px; color: var(--accent); font-weight: 600; }
 
-  /* ── RESULTS ── */
   #resultsSection { display: none; }
 
-  /* ── PRICE ROW ── */
   .price-row {
     background: var(--dark-row); border: 1px solid rgba(0,240,255,0.1);
     border-radius: var(--radius-sm); padding: 11px 14px; margin-bottom: 7px;
     display: flex; justify-content: space-between; align-items: center; gap: 10px;
     backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-    transition: background-color 0.2s, border-color 0.2s;
   }
   
   .store-name { font-weight: 700; font-size: 15px; flex-shrink: 0; }
@@ -151,14 +141,7 @@
     -webkit-tap-highlight-color: transparent;
   }
   .buy-btn:active { opacity: 0.85; transform: scale(0.96); }
-  
-  .dis-btn {
-    background: #0f1f2e; color: #3a5070; border: 1px solid rgba(255,255,255,0.05);
-    padding: 7px 16px; border-radius: 6px; font-weight: 700; font-size: 12px;
-    cursor: not-allowed;
-  }
 
-  /* ── VIDEO AD OVERLAY ── */
   .ad-overlay {
     position: fixed; inset: 0; z-index: 9999;
     background: rgba(2,7,16,0.95); backdrop-filter: blur(8px);
@@ -210,10 +193,8 @@
 </head>
 <body>
 
-<!-- ── ❄️ LIVE 3D CANVAS ELEMENT ── -->
 <canvas id="igloo3DCanvas"></canvas>
 
-<!-- ── CONTENT LAYER ── -->
 <div class="main-wrapper">
   <div class="container">
 
@@ -231,7 +212,6 @@
 
     <div class="spinner-wrap" id="spinWrap"><div class="spinner"></div></div>
 
-    <!-- ── RESULTS SECTION ── -->
     <div id="resultsSection">
       <div class="glass product-card" id="prodCard">
         <img src="" id="prodImg" class="prod-img" alt="Product">
@@ -250,7 +230,6 @@
   </div>
 </div>
 
-<!-- ── VIDEO AD COUNTDOWN OVERLAY ── -->
 <div class="ad-overlay" id="adOverlay" role="dialog" aria-modal="true">
   <div class="ad-box">
     <h3>Connecting to Cheapest Store…</h3>
@@ -260,9 +239,6 @@
 </div>
 
 <script>
-/* ═══════════════════════════════════════════
-   ❄️ LIVE 3D ICE IGLOO ENGINE (MOBILE-SAFE)
-═══════════════════════════════════════════ */
 const canvas = document.getElementById("igloo3DCanvas");
 const ctx = canvas.getContext("2d");
 let width, height, shards = [];
@@ -273,29 +249,23 @@ function initCanvas() {
     width = canvas.width = window.innerWidth;
     height = canvas.height = window.innerHeight;
     shards = [];
-    
-    const totalRows = window.innerWidth < 480 ? 6 : 9; // మొబైల్ కోసం ఆప్టిమైజ్డ్ రోస్
+    const totalRows = window.innerWidth < 480 ? 6 : 9;
     const baseRadius = window.innerWidth < 480 ? 70 : 110;
-    
     for (let r = 0; r < totalRows; r++) {
         const lat = (Math.PI / 2) * (r / totalRows);
         const radius = baseRadius * Math.sin(lat);
         const y = (height * 0.8) - (r * (window.innerWidth < 480 ? 10 : 13));
         const segments = Math.floor(radius * 0.16) || 1;
-        
         for (let s = 0; s < segments; s++) {
             const lon = (Math.PI / segments) * s;
             const x = (width / 2) + radius * Math.cos(lon - Math.PI);
-            
             shards.push({
-                bx: x, by: y,
-                x: x, y: y,
+                bx: x, by: y, x: x, y: y,
                 vx: (Math.cos(lon) * 2.5) + (Math.random() - 0.5) * 1.5,
                 vy: -(Math.sin(lat) * 3.5) - Math.random() * 1.5,
                 w: (window.innerWidth < 480 ? 9 : 13) + Math.random() * 6,
                 h: (window.innerWidth < 480 ? 6 : 9) + Math.random() * 3,
-                rot: Math.random() * Math.PI,
-                rotV: (Math.random() - 0.5) * 0.04
+                rot: Math.random() * Math.PI, rotV: (Math.random() - 0.5) * 0.04
             });
         }
     }
@@ -306,15 +276,6 @@ initCanvas();
 function render3DEngine() {
     ctx.clearRect(0, 0, width, height);
     stateTimer += 0.012;
-
-    // తెల్లటి మంచు కురిసే లైవ్ ఎఫెక్ట్
-    ctx.fillStyle = "rgba(255, 255, 255, 0.15)";
-    for (let i = 0; i < (window.innerWidth < 480 ? 15 : 30); i++) {
-        let sx = (Math.sin(stateTimer + i) * width / 2) + width / 2;
-        let sy = (stateTimer * 160 + i * 50) % height;
-        ctx.beginPath(); ctx.arc(sx, sy, 1.5, 0, Math.PI * 2); ctx.fill();
-    }
-
     if (stateTimer > 6) stateTimer = 0;
     if (stateTimer < 2) state = "explode";
     else if (stateTimer < 3.5) state = "stay";
@@ -322,128 +283,79 @@ function render3DEngine() {
     else state = "solid";
 
     shards.forEach(s => {
-        if (state === "explode") {
-            s.x += s.vx * 0.4; s.y += s.vy * 0.4; s.rot += s.rotV;
-        } else if (state === "merge") {
-            s.x += (s.bx - s.x) * 0.12; s.y += (s.by - s.y) * 0.12; s.rot += (0 - s.rot) * 0.12;
-        } else if (state === "solid") {
-            s.x = s.bx; s.y = s.by; s.rot = 0;
-        }
-
-        ctx.save();
-        ctx.translate(s.x, s.y);
-        ctx.rotate(s.rot);
-        ctx.fillStyle = "rgba(200, 240, 255, 0.35)";
-        ctx.strokeStyle = "rgba(255, 255, 255, 0.6)";
-        ctx.lineWidth = 0.8;
-        ctx.beginPath(); ctx.rect(-s.w/2, -s.h/2, s.w, s.h); ctx.fill(); ctx.stroke();
-        ctx.restore();
+        if (state === "explode") { s.x += s.vx * 0.4; s.y += s.vy * 0.4; s.rot += s.rotV; } 
+        else if (state === "merge") { s.x += (s.bx - s.x) * 0.12; s.y += (s.by - s.y) * 0.12; s.rot += (0 - s.rot) * 0.12; } 
+        else if (state === "solid") { s.x = s.bx; s.y = s.by; s.rot = 0; }
+        ctx.save(); ctx.translate(s.x, s.y); ctx.rotate(s.rot);
+        ctx.fillStyle = "rgba(200, 240, 255, 0.35)"; ctx.strokeStyle = "rgba(255, 255, 255, 0.6)"; ctx.lineWidth = 0.8;
+        ctx.beginPath(); ctx.rect(-s.w/2, -s.h/2, s.w, s.h); ctx.fill(); ctx.stroke(); ctx.restore();
     });
-
     requestAnimationFrame(render3DEngine);
 }
 render3DEngine();
 
-/* ═══════════════════════════════════════════
-   PRICE COMPARISON ENGINE[span_5](start_span)[span_5](end_span)
-═══════════════════════════════════════════ */
 const STORES = ["amazon","flipkart","shopsy","meesho","myntra","ajio","tatacliq"];
 
-function detectCategory(url) {
-  if (/myntra|ajio/.test(url)) return 'fashion';
-  if (/amazon|flipkart|tatacliq/.test(url)) return 'electronics';
-  return 'general';
-}
-
-function mockProductData(url) {
-  const cat = detectCategory(url);
-  if (cat === 'fashion') return {
-    title: "Trendy Designer Shoes / Premium Wear",
-    img: "https://img.icons8.com/fluency/96/sneakers.png"
-  };
-  if (url.includes('amazon')) return {
-    title: "Premium Smartphone (Amazon Best Seller)",
-    img: "https://img.icons8.com/fluency/96/smart-phone.png"
-  };
-  return {
-    title: "Advanced Wireless Audio Headset",
-    img: "https://img.icons8.com/fluency/96/headphones.png"
-  };
-}
-
-function mockPrices() {
-  return [
-    { name: "Shopsy",    price: 3449, url: "https://earnmaro.com" },
-    { name: "Flipkart",  price: 3499, url: "https://earnmaro.com" },
-    { name: "Amazon",    price: 3699, url: "https://earnmaro.com" },
-    { name: "Meesho",    price: 0,    url: "" },
-    { name: "Myntra",    price: 3999, url: "https://earnmaro.com" },
-    { name: "Ajio",      price: 0,    url: "" },
-    { name: "Tata Cliq", price: 3850, url: "https://earnmaro.com" },
-  ].sort((a,b) => {
-    if (a.price === 0) return 1;
-    if (b.price === 0) return -1;
-    return a.price - b.price;
-  });
-}
-
-function runComparison() {
-  const raw = document.getElementById('productLink').value.trim().toLowerCase();
+async function runComparison() {
+  const rawUrl = document.getElementById('productLink').value.trim();
   const err = document.getElementById('errMsg');
   const res = document.getElementById('resultsSection');
   const spin = document.getElementById('spinWrap');
 
-  if (!raw || !STORES.some(d => raw.includes(d))) {
+  if (!rawUrl || !STORES.some(d => rawUrl.toLowerCase().includes(d))) {
     err.style.display = 'block';
     res.style.display = 'none';
     return;
   }
-  err.style.display = 'none';
-  res.style.display = 'none';
-  spin.style.display = 'flex';
+  err.style.display = 'none'; res.style.display = 'none'; spin.style.display = 'flex';
 
-  setTimeout(() => {
-    spin.style.display = 'none';
+  try {
+    const response = await fetch(`/api/compare?url=${encodeURIComponent(rawUrl)}`);
+    const data = await response.json();
 
-    const prod = mockProductData(raw);
-    document.getElementById('prodImg').src   = prod.img;
-    document.getElementById('prodTitle').textContent = prod.title;
+    if (data.error) {
+      alert("Error fetching real prices.");
+      spin.style.display = 'none';
+      return;
+    }
+
+    document.getElementById('prodImg').src = "https://img.icons8.com/fluency/96/box.png";
+    document.getElementById('prodTitle').textContent = data.title;
 
     const list = document.getElementById('appsList');
     list.innerHTML = '';
-    mockPrices().forEach((app, i) => {
+
+    data.prices.forEach((app, i) => {
       const row = document.createElement('div');
       row.className = 'price-row';
       const isFirst = i === 0;
-      const available = app.price > 0;
 
       row.innerHTML = `
         <span class="store-name">
           ${app.name}${isFirst ? '<span class="best-badge">BEST</span>' : ''}
         </span>
         <div class="row-right">
-          ${available
-            ? `<span class="price-live">₹${app.price.toLocaleString('en-IN')}</span>
-               <button class="buy-btn" onclick="startAdRedirect('${app.url}')">Buy Now</button>`
-            : `<span class="price-na">Not Available</span>
-               <button class="dis-btn" disabled aria-disabled="true">Unavailable</button>`
-          }
+          <span class="price-live">₹${app.price.toLocaleString('en-IN')}</span>
+          <button class="buy-btn" onclick="startAdRedirect('${app.url}')">Buy Now</button>
         </div>`;
       list.appendChild(row);
     });
 
+    spin.style.display = 'none';
     res.style.display = 'block';
     res.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 1200);
+
+  } catch (e) {
+    spin.style.display = 'none';
+    alert("Server busy! Please try again.");
+  }
 }
 
 document.getElementById('productLink').addEventListener('keydown', e => {
   if (e.key === 'Enter') runComparison();
 });
 
-/* ── 5-SECOND VIDEO AD COUNTDOWN ── */
 let adTimer = null;
-
 function startAdRedirect(url) {
   if (!url) return;
   const overlay = document.getElementById('adOverlay');
@@ -465,14 +377,6 @@ function startAdRedirect(url) {
     }
   }, 1000);
 }
-
-window.addEventListener('popstate', () => {
-  const overlay = document.getElementById('adOverlay');
-  if (overlay.style.display === 'flex') {
-    clearInterval(adTimer);
-    overlay.style.display = 'none';
-  }
-});
 </script>
 </body>
 </html>
