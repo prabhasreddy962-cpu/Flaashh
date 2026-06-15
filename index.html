@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flaash AI - Product Comparison & Reviews</title>
+    <title>Flaashh.ai - Ice-Cool Smart Price Comparison Engine</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* 🎨 స్క్రీన్‌షాట్ 156075.jpg లో ఉన్న క్లాడ్ ఒరిజినల్ డార్క్ థీమ్ స్టైల్స్ */
         * {
             margin: 0;
             padding: 0;
@@ -14,130 +15,222 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f3f0;
-            color: #1a1a1a;
-            line-height: 1.6;
-        }
-
-        .header {
-            background: white;
-            padding: 1rem;
-            border-bottom: 1px solid #e0e0e0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-top {
+            background: radial-gradient(circle at top, #0f1f2c 0%, #050b11 100%);
+            color: #ffffff;
+            min-height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: space-between;
-            margin-bottom: 1rem;
+            padding: 2rem 1rem;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 2rem;
+            margin-top: 1rem;
         }
 
         .logo {
-            font-size: 18px;
-            font-weight: 600;
+            font-size: 36px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -1px;
         }
 
-        .search-container {
+        .logo span {
+            color: #00d2ff;
+        }
+
+        .tagline {
+            font-size: 14px;
+            color: #a0aec0;
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .search-box-container {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(0, 210, 255, 0.03);
+            border: 2px solid #00d2ff;
+            border-radius: 50px;
+            padding: 6px 6px 6px 18px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.2);
+            margin-bottom: 1.5rem;
+        }
+
+        .search-box-container input {
             flex: 1;
-            margin: 0 1rem;
-            position: relative;
-        }
-
-        .search-container input {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-
-        .search-container input:focus {
-            outline: none;
-            border-color: #7c3aed;
-            background-color: #f9f7f5;
-        }
-
-        .paste-section {
-            background: #2a2a2a;
-            color: white;
-            padding: 1.5rem;
-            margin: 1rem;
-            border-radius: 12px;
-        }
-
-        .paste-section h3 {
-            font-size: 14px;
-            margin-bottom: 0.5rem;
-        }
-
-        .paste-section input {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            background: rgba(255,255,255,0.05);
-            color: white;
-            font-size: 13px;
-        }
-
-        .paste-section input::placeholder {
-            color: rgba(255,255,255,0.6);
-        }
-
-        .button-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 1rem;
-        }
-
-        .btn {
-            padding: 8px 12px;
+            background: transparent;
             border: none;
-            border-radius: 6px;
-            font-size: 12px;
+            outline: none;
+            color: #ffffff;
+            font-size: 15px;
+            padding-right: 10px;
+        }
+
+        .search-box-container input::placeholder {
+            color: #4a5568;
+        }
+
+        .compare-btn {
+            background: #00e676;
+            color: #000000;
+            border: none;
+            outline: none;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
         }
 
-        .btn-primary {
-            background: white;
-            color: #2a2a2a;
-            font-weight: 600;
+        .compare-btn:active {
+            transform: scale(0.95);
         }
 
-        .btn-dark {
-            background: #2a2a2a;
-            color: white;
+        .ad-container {
+            width: 100%;
+            max-width: 500px;
+            border: 1px dashed #1a202c;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            color: #4a5568;
+            font-size: 12px;
+            letter-spacing: 1px;
+            margin-bottom: 2rem;
         }
 
         .container {
-            max-width: 100%;
-            padding: 1rem;
+            width: 100%;
+            max-width: 500px;
         }
 
-        h2 {
-            font-size: 18px;
+        /* 📦 ప్రొడక్ట్ రిజల్ట్స్ కార్డ్ స్టైల్స్ */
+        .product-card {
+            background: rgba(26, 32, 44, 0.6);
+            border: 1px solid #2d3748;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .product-header {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 1rem;
+        }
+
+        .product-image {
+            font-size: 45px;
+            background: rgba(255,255,255,0.05);
+            padding: 10px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-info {
+            flex: 1;
+        }
+
+        .product-name {
+            font-size: 16px;
             font-weight: 600;
-            margin: 1.5rem 0 1rem 0;
+            margin-bottom: 6px;
+            color: #ffffff;
+        }
+
+        .product-features {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .feature {
+            font-size: 11px;
+            color: #a0aec0;
+            background: #2d3748;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .product-rating {
+            font-size: 18px;
+            font-weight: 700;
+            color: #00e676;
+        }
+
+        .savings-box {
+            background: rgba(0, 230, 118, 0.1);
+            border: 1px solid rgba(0, 230, 118, 0.3);
+            color: #00e676;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .stores-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .store-item {
+            background: #1a202c;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #2d3748;
+        }
+
+        .store-item.cheapest {
+            border: 2px solid #00e676;
+            background: rgba(0, 230, 118, 0.05);
+        }
+
+        .store-icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .store-name {
+            font-size: 10px;
+            color: #a0aec0;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .store-price {
+            font-size: 12px;
+            font-weight: 700;
+            color: #00e676;
         }
 
         .loading {
             text-align: center;
             padding: 2rem;
-            color: #666;
+            color: #a0aec0;
         }
 
         .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #7c3aed;
+            border: 4px solid #1a202c;
+            border-top: 4px solid #00d2ff;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             animation: spin 1s linear infinite;
             margin: 0 auto 1rem;
         }
@@ -147,218 +240,58 @@
             100% { transform: rotate(360deg); }
         }
 
-        .product-card {
-            background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 12px;
-            padding: 1rem;
+        .message {
+            padding: 12px;
+            border-radius: 8px;
             margin-bottom: 1rem;
-        }
-
-        .product-header {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 1rem;
-        }
-
-        .product-image {
-            font-size: 40px;
-            min-width: 50px;
-        }
-
-        .product-info {
-            flex: 1;
-        }
-
-        .product-name {
             font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-
-        .product-features {
-            display: flex;
-            gap: 4px;
-            flex-wrap: wrap;
-            margin-bottom: 6px;
-        }
-
-        .feature {
-            font-size: 10px;
-            color: #666;
-        }
-
-        .product-rating {
-            font-size: 16px;
-            font-weight: 600;
-            color: #16a34a;
-        }
-
-        .stores-section {
-            margin-bottom: 1rem;
-        }
-
-        .stores-label {
-            font-size: 11px;
-            color: #666;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .stores-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            max-height: 220px;
-            overflow-y: auto;
-            padding-bottom: 8px;
-        }
-
-        .store-item {
-            background: #f9f7f5;
-            padding: 8px;
-            border-radius: 6px;
-            text-align: center;
-            cursor: pointer;
-            border: 1px solid #e0e0e0;
-            transition: all 0.2s;
-        }
-
-        .store-item:hover {
-            background: #f0ebe5;
-            border-color: #ddd;
-        }
-
-        .store-item.cheapest {
-            border: 2px solid #16a34a;
-            background: #f0fdf4;
-        }
-
-        .store-icon {
-            font-size: 18px;
-            margin-bottom: 2px;
-        }
-
-        .store-name {
-            font-size: 9px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .store-price {
-            font-size: 11px;
-            font-weight: 600;
-            color: #16a34a;
-        }
-
-        .savings-box {
-            background: #d1fae5;
-            color: #065f46;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            font-size: 12px;
-            font-weight: 600;
             text-align: center;
         }
-
-        .error {
-            background: #fee2e2;
-            color: #991b1b;
-            padding: 1rem;
-            border-radius: 8px;
-            margin: 1rem;
-            font-size: 13px;
-        }
-
-        .success {
-            background: #d1fae5;
-            color: #065f46;
-            padding: 1rem;
-            border-radius: 8px;
-            margin: 1rem;
-            font-size: 13px;
-        }
-
-        .footer {
-            background: #1a1a1a;
-            color: white;
-            padding: 2rem 1rem;
-            margin-top: 2rem;
-        }
-
-        .footer-buttons {
-            margin-bottom: 1.5rem;
-        }
-
-        .footer-btn {
-            padding: 10px 16px;
-            background: white;
-            color: #1a1a1a;
-            border: none;
-            border-radius: 4px;
-            margin-right: 8px;
-            margin-bottom: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-        }
+        .error { background: rgba(229, 62, 62, 0.2); border: 1px solid #e53e3e; color: #fc8181; }
+        .success { background: rgba(49, 151, 149, 0.2); border: 1px solid #319795; color: #4fd1c5; }
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="header-top">
-            <div class="logo">≡ Flaash AI</div>
-            <i class="fas fa-search"></i>
-        </div>
-        <div class="search-container">
-            <input type="text" placeholder="Search products..." id="searchInput">
-        </div>
-    </header>
 
-    <div class="paste-section">
-        <h3>+ Add Extension</h3>
-        <input type="text" placeholder="Paste Amazon/Flipkart/Myntra link..." id="pasteInput">
-        <div class="button-group">
-            <button class="btn btn-primary" onclick="searchProduct()">🔍 Search</button>
-            <button class="btn btn-primary" onclick="pasteLink()">📎 Paste Link</button>
-            <button class="btn btn-primary" onclick="showSample()">📱 Sample Link</button>
-        </div>
-        <p style="font-size: 13px; margin: 0;">✨ Get real-time price comparison from 9 stores</p>
+    <!-- 🌟 క్లాడ్ ఒరిజినల్ హెడర్ డిజైన్ -->
+    <div class="logo-container">
+        <div class="logo">Flaashh<span>.ai</span></div>
+        <div class="tagline">❄️ Ice-Cool Smart Price Comparison Engine</div>
     </div>
 
+    <!-- 🔍 క్లాడ్ ఒరిజినల్ సెర్చ్ బార్ -->
+    <div class="search-box-container">
+        <input type="text" placeholder="Paste Amazon, Flipkart, Myntra link..." id="pasteInput">
+        <button class="compare-btn" onclick="searchProduct()">Compare</button>
+    </div>
+
+    <!-- 📢 అడ్వర్టైజ్మెంట్ హోల్డర్ -->
+    <div class="ad-container">
+        [ NATIVE POSTER AD — MONETAG ]
+    </div>
+
+    <!-- 📊 రిజల్ట్స్ డిస్ప్లే ఏరియా -->
     <div class="container">
         <div id="messageBox"></div>
         <div id="productContainer"></div>
     </div>
 
-    <footer class="footer">
-        <div class="footer-buttons">
-            <button class="footer-btn">▶ Android App</button>
-            <button class="footer-btn">🍎 iOS App</button>
-        </div>
-        <p style="text-align: center; margin-top: 1rem;">© 2026 Flaash AI - Real Product Comparison</p>
-    </footer>
-
     <script>
-        // 👇  https://flaash-ai.vercel.app/api)
-        // ప్రస్తుతానికి ఇది నీ సైట్ హోస్ట్ అయ్యే డొమైన్ లోని /api కి ఆటోమేటిక్‌గా కనెక్ట్ అవుతుంది.
+        // వర్సెల్ బ్యాకెండ్‌కి ఆటోమేటిక్‌గా కనెక్ట్ అవుతుంది మామా
         const API_URL = window.location.origin + '/api';
 
         function showMessage(message, type = 'info') {
             const messageBox = document.getElementById('messageBox');
-            const className = type === 'error' ? 'error' : 'success';
+            const className = type === 'error' ? 'message error' : 'message success';
             messageBox.innerHTML = `<div class="${className}">${message}</div>`;
         }
 
         function showLoading() {
-            const container = document.getElementById('productContainer');
-            container.innerHTML = `
+            document.getElementById('productContainer').innerHTML = `
                 <div class="loading">
                     <div class="loader"></div>
-                    <p>Fetching product details from 9 stores...</p>
-                </div>
-            `;
+                    <p>Scanning 9 stores for best prices...</p>
+                </div>`;
         }
 
         async function searchProduct() {
@@ -370,6 +303,7 @@
             }
 
             showLoading();
+            document.getElementById('messageBox').innerHTML = '';
 
             try {
                 const response = await fetch(`${API_URL}/search-product`, {
@@ -386,17 +320,14 @@
                 }
 
                 displayProduct(data.product);
-                showMessage(`✅ Found! Best price on ${data.product.cheapest} - Save ₹${data.product.savings}!`, 'success');
 
             } catch (error) {
-                showMessage(`❌ Server Error. Please make sure your backend is properly deployed!`, 'error');
-                console.log('Error details:', error);
+                showMessage(`❌ Server Connection Error. Please check Vercel deployment.`, 'error');
             }
         }
 
         function displayProduct(product) {
             const container = document.getElementById('productContainer');
-            
             const sortedStores = [...product.stores].sort((a, b) => a.actualPrice - b.actualPrice);
 
             let storesHTML = sortedStores.map(store => `
@@ -414,47 +345,21 @@
                         <div class="product-info">
                             <div class="product-name">${product.name}</div>
                             <div class="product-features">
-                                ${product.features.map(f => `<span class="feature">✓ ${f}</span>`).join('')}
+                                ${product.features.map(f => `<span class="feature">${f}</span>`).join('')}
                             </div>
                         </div>
-                        <div class="product-rating">${product.rating}</div>
+                        <div class="product-rating">${product.rating}%</div>
                     </div>
 
                     <div class="savings-box">
-                        💰 Save ₹${product.savings} by buying from ${product.cheapest}!
+                        🎉 Best Price on ${product.cheapest}! Save up to ₹${product.savings}
                     </div>
 
-                    <div class="stores-section">
-                        <div class="stores-label">Price on 9 Stores (Sorted by Price):</div>
-                        <div class="stores-grid">
-                            ${storesHTML}
-                        </div>
+                    <div class="stores-grid">
+                        ${storesHTML}
                     </div>
-
-                    <button class="btn btn-dark" style="width: 100%; padding: 12px;" onclick="openStore('${product.cheapest}')">
-                        Buy from ${product.cheapest} 🛒
-                    </button>
                 </div>
             `;
-        }
-
-        function showSample() {
-            const samples = [
-                'amazon.in/Apple-iPhone-15-Pro-Max',
-                'flipkart.com/nikon-d780',
-                'flipkart.com/samsung-s24'
-            ];
-            const random = samples[Math.floor(Math.random() * samples.length)];
-            document.getElementById('pasteInput').value = random;
-        }
-
-        function pasteLink() {
-            document.getElementById('pasteInput').focus();
-            alert('Paste product link from Amazon, Flipkart, Myntra, etc.');
-        }
-
-        function openStore(storeName) {
-            alert(`Redirecting to ${storeName}...`);
         }
     </script>
 </body>
